@@ -1,0 +1,729 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>interpolation_HW_bemis</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-09-10"><meta name="DC.source" content="interpolation_HW_bemis.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Preparation of the Workspace</a></li><li><a href="#3">Preperation of Figures</a></li><li><a href="#4">Problem 1</a></li><li><a href="#5">Problem 2</a></li><li><a href="#6">Problem 4</a></li><li><a href="#7">Problem 8</a></li><li><a href="#8">Problem 9</a></li><li><a href="#9">Functions</a></li></ul></div><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">
+</span><span class="comment">@author: Benjamin Bemis Ph.D Student,
+</span><span class="comment">Advisor: Dr Juliano
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">Description:
+</span><span class="comment">AME 60614: Numerical Methods
+</span><span class="comment">Homework: 1
+</span><span class="comment">Due: 9/10/2024
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre><h2 id="2">Preparation of the Workspace</h2><pre class="codeinput">clear <span class="string">all</span>
+clc
+close <span class="string">all</span>
+</pre><h2 id="3">Preperation of Figures</h2><pre class="codeinput">fontsize = 16;
+set(0,<span class="string">'DefaultTextInterpreter'</span>,<span class="string">'latex'</span>)
+set(0,<span class="string">'DefaultAxesFontSize'</span>,fontsize)
+set(0,<span class="string">'DefaultLegendFontSize'</span>,fontsize)
+colors  = [<span class="string">"#000000"</span>,<span class="string">"#1b9e77"</span>,<span class="string">"#d95f02"</span>,<span class="string">"#7570b3"</span>,<span class="string">"#0099FF"</span>,<span class="string">"#FF0000"</span>];
+</pre><h2 id="4">Problem 1</h2><pre class="codeinput"><span class="comment">% Part a</span>
+x = linspace(-1,1,11);
+y = [0.038 0.058 0.1 0.2 0.5 1 .5 .2 .1 .058 0.038];  <span class="comment">% provided data from ex. 1.1</span>
+
+x_smooth = linspace(min(x),max(x),1e3);
+y_exact = 1./(1+25*x_smooth.^2);
+x_interp = 0.9; <span class="comment">% point to be interpolated</span>
+
+n = length(x)-1;
+query = x_interp;
+y_interp = interpl(x,y,n,query) ;
+
+<span class="keyword">for</span> i = 1:length(x_smooth)
+
+y_interp_smooth(i) = interpl(x,y,n,x_smooth(i));
+
+<span class="keyword">end</span>
+
+
+figure
+hold <span class="string">on</span>
+plot(x,y,<span class="string">'ko'</span>)
+plot(x_smooth,y_exact,<span class="string">"k"</span>,<span class="string">"LineWidth"</span>,1.5)
+plot(x_interp,y_interp,<span class="string">"ro"</span>)
+plot(x_smooth,y_interp_smooth,<span class="string">"r"</span>,<span class="string">"LineWidth"</span>,1.5)
+xlabel(<span class="string">'$x$'</span>);
+ylabel(<span class="string">'$y$'</span>);
+grid <span class="string">on</span>
+<span class="comment">% xlim([0 1])</span>
+set(gca,<span class="string">'fontsize'</span>, fontsize)
+legend(<span class="string">"Ex. 1.1 Data"</span>,<span class="string">"$y = (1+25x^2)^{-1}$"</span>,strcat(<span class="string">"$\left. P_{"</span>,string(n),<span class="string">"}="</span>,string(round(y_interp,3)),<span class="string">'\right|_{x='</span>,string(query),<span class="string">"}"</span>,<span class="string">"$"</span>),strcat(<span class="string">"$ P_{"</span>,string(n),<span class="string">"}$"</span>),<span class="string">'Interpreter'</span>,<span class="string">'Latex'</span>,<span class="string">'location'</span>,<span class="string">'best'</span>)
+
+<span class="comment">% =========================================================================</span>
+<span class="comment">% part b</span>
+x_b = linspace(-1,1,21);
+y_exact_b = 1./(1+25*x_b.^2);
+n = length(x_b)-1;
+
+<span class="keyword">for</span> i = 1:length(x_smooth)
+
+y_interp_smooth_b(i) = interpl(x_b,y_exact_b,n,x_smooth(i));
+
+<span class="keyword">end</span>
+figure
+hold <span class="string">on</span>
+plot(x_b,y_exact_b,<span class="string">'ko'</span>)
+plot(x_smooth,y_interp_smooth_b,<span class="string">"r"</span>,<span class="string">"LineWidth"</span>,1.5)
+xlabel(<span class="string">'$x$'</span>);
+ylabel(<span class="string">'$y$'</span>);
+grid <span class="string">on</span>
+<span class="comment">% xlim([0 1])</span>
+set(gca,<span class="string">'fontsize'</span>, fontsize)
+legend(<span class="string">"$y = (1+25x^2)^{-1}$"</span>,strcat(<span class="string">"$ P_{"</span>,string(n),<span class="string">"}$"</span>),<span class="string">'Interpreter'</span>,<span class="string">'Latex'</span>,<span class="string">'location'</span>,<span class="string">'best'</span>)
+
+<span class="comment">%{
+</span><span class="comment">Comments:
+</span><span class="comment">This is functionally similar to the plot in example 1.1. The main
+</span><span class="comment">difference is that as the order of the polynomial increases so do the
+</span><span class="comment">magnitude of the occilations. This is why the extremes of my interpolation
+</span><span class="comment">are much larger than those shown in example 1.1.
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre><img vspace="5" hspace="5" src="interpolation_HW_bemis_01.png" alt=""> <img vspace="5" hspace="5" src="interpolation_HW_bemis_02.png" alt=""> <h2 id="5">Problem 2</h2><pre class="codeinput"><span class="comment">% Part a</span>
+x = linspace(-1,1,11);
+y = [0.038 0.058 0.1 0.2 0.5 1 .5 .2 .1 .058 0.038];  <span class="comment">% provided data from ex. 1.1</span>
+
+x_smooth = linspace(min(x),max(x),1e3);
+y_exact = 1./(1+25*x_smooth.^2);
+x_interp = 0.9; <span class="comment">% point to be interpolated</span>
+
+
+query = x_interp;
+<span class="keyword">for</span> i = 1:6
+    n = i;
+    y_interp_N(i) = interpN(x,y,n,query);
+    y_interp_L(i) = interpl(x,y,n,query);
+
+    <span class="keyword">for</span> j = 1:length(x_smooth)
+
+        y_interp_smoothN(i,j) = interpN(x,y,n,x_smooth(j));
+        y_interp_smoothL(i,j) = interpl(x,y,n,x_smooth(j));
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+figure
+hold <span class="string">on</span>
+<span class="keyword">for</span> i = 1:6
+plot(x_interp,y_interp_N(i),<span class="string">'o'</span>,<span class="string">"Color"</span>,colors(i));
+<span class="comment">% plot(x_interp,y_interp_L(i),'*',"Color",colors(i));</span>
+plot(x_smooth,y_interp_smoothN(i,:),<span class="string">"Color"</span>,colors(i),<span class="string">"LineWidth"</span>,1.5);
+<span class="comment">% plot(x_smooth,y_interp_smoothL(i,:),"--","Color",colors(i),"LineWidth",1.5);</span>
+
+<span class="keyword">end</span>
+xlabel(<span class="string">'$x$'</span>);
+ylabel(<span class="string">'$y$'</span>);
+grid <span class="string">on</span>
+<span class="comment">% xlim([0 1])</span>
+set(gca,<span class="string">'fontsize'</span>, fontsize)
+</pre><img vspace="5" hspace="5" src="interpolation_HW_bemis_03.png" alt=""> <h2 id="6">Problem 4</h2><pre class="codeinput"><span class="comment">% See paper</span>
+</pre><h2 id="7">Problem 8</h2><pre class="codeinput"><span class="comment">% Part a</span>
+year = 1993:2:2007;
+concen = [12 12.7 13 15.2 18.2 19.8 24.1 28.1];
+
+year_smooth = linspace(min(year),max(year),1e3);
+
+query = 2009; <span class="comment">% point to be interpolated</span>
+
+n = length(year)-1;
+concen_interp = interpl(year,concen,n,query);
+
+<span class="keyword">for</span> i = 1:length(year_smooth)
+
+concen_interp_smooth(i) = interpl(year,concen,n,year_smooth(i));
+
+<span class="keyword">end</span>
+
+figure
+hold <span class="string">on</span>
+plot(year,concen,<span class="string">'ko'</span>)
+plot(year_smooth,concen_interp_smooth,<span class="string">"r"</span>,<span class="string">"LineWidth"</span>,1.5)
+xlabel(<span class="string">'Year'</span>);
+ylabel(<span class="string">'Toxin Concentration'</span>);
+grid <span class="string">on</span>
+<span class="comment">% xlim([0 1])</span>
+set(gca,<span class="string">'fontsize'</span>, fontsize)
+legend(<span class="string">"Data"</span>,strcat(<span class="string">"$ P_{"</span>,string(n),<span class="string">"}$"</span>),<span class="string">'Interpreter'</span>,<span class="string">'Latex'</span>,<span class="string">'location'</span>,<span class="string">'best'</span>)
+
+<span class="comment">%{
+</span><span class="comment">Comments:
+</span><span class="comment">The prediction of a negative toxin concentration in 2009 is unsensical.
+</span><span class="comment">This is because this uses an 7th order polynomial which ocilates wildly
+</span><span class="comment">near the end points.
+</span><span class="comment">%}
+</span>
+<span class="comment">% ========================================================================</span>
+<span class="comment">% Part b &amp; c</span>
+
+year_b = [year(1:2) year(5:end)];
+concen_b = [concen(1:2) concen(5:end)];
+
+query = [1997,1999]; <span class="comment">% point to be interpolated</span>
+
+n = length(year_b)-1;
+<span class="keyword">for</span> i = 1:2
+concen_interp_b(i) = interpl(year_b,concen_b,n,query(i));
+spline_interp_b(i) = interp1(year_b,concen_b,query(i),<span class="string">"spline"</span>);
+<span class="keyword">end</span>
+disp(concen(3:4))
+disp(concen_interp_b)
+disp(spline_interp_b)
+
+
+
+
+
+figure
+hold <span class="string">on</span>
+plot(year,concen,<span class="string">'ko'</span>)
+plot(query,concen_interp_b,<span class="string">'ro'</span>)
+plot(query,spline_interp_b,<span class="string">'bo'</span>)
+<span class="comment">% plot(year_smooth,concen_interp_smooth,"r","LineWidth",1.5)</span>
+xlabel(<span class="string">'Year'</span>);
+ylabel(<span class="string">'Toxin Concentration'</span>);
+grid <span class="string">on</span>
+<span class="comment">% xlim([0 1])</span>
+set(gca,<span class="string">'fontsize'</span>, fontsize)
+legend(<span class="string">"Data"</span>,strcat(<span class="string">"$ P_{"</span>,string(n),<span class="string">"}$"</span>),<span class="string">"Cubic Spline"</span>,<span class="string">'Interpreter'</span>,<span class="string">'Latex'</span>,<span class="string">'location'</span>,<span class="string">'best'</span>)
+
+<span class="comment">%{
+</span><span class="comment"> Comments on the difference in interpolation using both Lagrangian and Cubic Spline
+</span><span class="comment">
+</span><span class="comment">Both methods over predict the concentration of toxin, however the cubic
+</span><span class="comment">spline is closest to the original data. This is because the Lagrangian
+</span><span class="comment">polynomial fit to the data set is of 5th order. This is a rather large
+</span><span class="comment">polynomial for interpolation and thus causes some ocilations near the
+</span><span class="comment">edges of the data set. For example, in this data set the value of the third
+</span><span class="comment">and fourth indexes are 3.23 and 2.68 respectively. This is because the
+</span><span class="comment">accuracy decays as we move farther from the center point. The same is true
+</span><span class="comment">for the cubic polynomial but is less pronounced, resulting in a closer
+</span><span class="comment">interpolation to the original data.
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre><h2 id="8">Problem 9</h2><pre class="codeinput"><span class="comment">% Derivation - See paper</span>
+</pre><h2 id="9">Functions</h2><pre class="codeinput"><span class="keyword">function</span> value = interpl(x,y,n,query)
+<span class="comment">%{
+</span><span class="comment">Lagrangian Interpolation
+</span><span class="comment">
+</span><span class="comment">input:
+</span><span class="comment">x is a vector of independent points
+</span><span class="comment">y is a vector of points dependent on x
+</span><span class="comment">n is the order of the polynomial interpolation
+</span><span class="comment">query is the independent value to be interpolated
+</span><span class="comment">
+</span><span class="comment">output:
+</span><span class="comment">
+</span><span class="comment">value is the interpolated estimate of query
+</span><span class="comment">
+</span><span class="comment">%}
+</span>
+<span class="comment">% nearest n+1 points are needed</span>
+indices = zeros(1, n+1);
+x_dummy = x;
+
+<span class="keyword">for</span> k = 1:n+1
+    [dummy, index] = min(abs(query -  x_dummy));
+    x_close(k) = x(index);
+    y_close(k) = y(index);
+    indices(k) = index;
+    x_dummy(index) = nan;
+<span class="keyword">end</span>
+
+<span class="comment">% Sort indices to match the original order</span>
+[~, sortOrder] = sort(indices);
+x_close = x_close(sortOrder);
+y_close = y_close(sortOrder);
+
+
+<span class="keyword">for</span> j = 1:n+1
+    <span class="keyword">for</span> i = 1:n+1
+        <span class="keyword">if</span> i == j
+            L_num(i) = nan;
+            L_den(i) = nan;
+        <span class="keyword">else</span>
+            L_num(i) = query-(x_close(i));
+            L_den(i) = x_close(j)-x_close(i);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    L(j) = (prod(L_num(~isnan(L_num)))/prod(L_den(~isnan(L_den))));
+<span class="keyword">end</span>
+
+value = sum(y_close.*L);
+
+<span class="keyword">end</span>
+
+
+<span class="keyword">function</span> value = interpN(x,y,n,query)
+<span class="comment">%{
+</span><span class="comment">Newtonian Interpolation
+</span><span class="comment">
+</span><span class="comment">input:
+</span><span class="comment">x is a vector of independent points
+</span><span class="comment">y is a vector of points dependent on x
+</span><span class="comment">n is the order of the polynomial interpolation
+</span><span class="comment">query is the independent value to be interpolated
+</span><span class="comment">
+</span><span class="comment">output:
+</span><span class="comment">
+</span><span class="comment">value is the interpolated estimate of query
+</span><span class="comment">
+</span><span class="comment">%}
+</span>
+<span class="comment">% nearest n+1 points are needed</span>
+indices = zeros(1, n+1);
+x_dummy = x;
+
+<span class="keyword">for</span> k = 1:n+1
+    [dummy, index] = min(abs(query - x_dummy));
+    x_close(k) = x(index);
+    y_close(k) = y(index);
+    indices(k) = index;
+    x_dummy(index) = nan;
+<span class="keyword">end</span>
+
+<span class="comment">% Sort indices to match the original order</span>
+[~, sortOrder] = sort(indices);
+x_close = x_close(sortOrder);
+y_close = y_close(sortOrder);
+
+<span class="comment">% Construct the divided differences table</span>
+div_diff = zeros(n+1, n+1);
+div_diff(:,1) = y_close';
+
+<span class="keyword">for</span> j = 2:n+1
+    <span class="keyword">for</span> i = 1:n-j+1
+        div_diff(i,j) = (div_diff(i+1,j-1) - div_diff(i,j-1)) / (x_close(i+j-1) - x_close(i));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Perform the interpolation</span>
+value = div_diff(1,1);
+prod_term = 1;
+
+<span class="keyword">for</span> i = 1:n
+    prod_term = prod_term * (query - x_close(i));
+    value = value + div_diff(1,i+1) * prod_term;
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%{
+
+@author: Benjamin Bemis Ph.D Student, 
+Advisor: Dr Juliano
+
+
+Description:
+AME 60614: Numerical Methods
+Homework: 1
+Due: 9/10/2024
+
+
+%}
+
+%% Preparation of the Workspace
+
+clear all
+clc
+close all
+
+%% Preperation of Figures
+
+fontsize = 16;
+set(0,'DefaultTextInterpreter','latex')
+set(0,'DefaultAxesFontSize',fontsize)
+set(0,'DefaultLegendFontSize',fontsize)
+colors  = ["#000000","#1b9e77","#d95f02","#7570b3","#0099FF","#FF0000"];
+
+%% Problem 1
+
+% Part a
+x = linspace(-1,1,11);
+y = [0.038 0.058 0.1 0.2 0.5 1 .5 .2 .1 .058 0.038];  % provided data from ex. 1.1
+
+x_smooth = linspace(min(x),max(x),1e3);
+y_exact = 1./(1+25*x_smooth.^2);
+x_interp = 0.9; % point to be interpolated
+
+n = length(x)-1;
+query = x_interp;
+y_interp = interpl(x,y,n,query) ;
+
+for i = 1:length(x_smooth)
+
+y_interp_smooth(i) = interpl(x,y,n,x_smooth(i)); 
+
+end
+
+
+figure
+hold on 
+plot(x,y,'ko')
+plot(x_smooth,y_exact,"k","LineWidth",1.5)
+plot(x_interp,y_interp,"ro")
+plot(x_smooth,y_interp_smooth,"r","LineWidth",1.5)
+xlabel('$x$');
+ylabel('$y$');
+grid on
+% xlim([0 1])
+set(gca,'fontsize', fontsize)
+legend("Ex. 1.1 Data","$y = (1+25x^2)^{-1}$",strcat("$\left. P_{",string(n),"}=",string(round(y_interp,3)),'\right|_{x=',string(query),"}","$"),strcat("$ P_{",string(n),"}$"),'Interpreter','Latex','location','best')
+
+% =========================================================================
+% part b
+x_b = linspace(-1,1,21);
+y_exact_b = 1./(1+25*x_b.^2);
+n = length(x_b)-1;
+
+for i = 1:length(x_smooth)
+
+y_interp_smooth_b(i) = interpl(x_b,y_exact_b,n,x_smooth(i)); 
+
+end
+figure
+hold on 
+plot(x_b,y_exact_b,'ko')
+plot(x_smooth,y_interp_smooth_b,"r","LineWidth",1.5)
+xlabel('$x$');
+ylabel('$y$');
+grid on
+% xlim([0 1])
+set(gca,'fontsize', fontsize)
+legend("$y = (1+25x^2)^{-1}$",strcat("$ P_{",string(n),"}$"),'Interpreter','Latex','location','best')
+
+%{
+Comments:
+This is functionally similar to the plot in example 1.1. The main
+difference is that as the order of the polynomial increases so do the
+magnitude of the occilations. This is why the extremes of my interpolation
+are much larger than those shown in example 1.1.
+
+%}
+
+%% Problem 2
+
+
+% Part a
+x = linspace(-1,1,11);
+y = [0.038 0.058 0.1 0.2 0.5 1 .5 .2 .1 .058 0.038];  % provided data from ex. 1.1
+
+x_smooth = linspace(min(x),max(x),1e3);
+y_exact = 1./(1+25*x_smooth.^2);
+x_interp = 0.9; % point to be interpolated
+
+
+query = x_interp;
+for i = 1:6
+    n = i;
+    y_interp_N(i) = interpN(x,y,n,query);
+    y_interp_L(i) = interpl(x,y,n,query);
+
+    for j = 1:length(x_smooth)
+
+        y_interp_smoothN(i,j) = interpN(x,y,n,x_smooth(j));
+        y_interp_smoothL(i,j) = interpl(x,y,n,x_smooth(j));
+
+    end
+
+end
+
+figure
+hold on
+for i = 1:6
+plot(x_interp,y_interp_N(i),'o',"Color",colors(i));
+% plot(x_interp,y_interp_L(i),'*',"Color",colors(i));
+plot(x_smooth,y_interp_smoothN(i,:),"Color",colors(i),"LineWidth",1.5);
+% plot(x_smooth,y_interp_smoothL(i,:),"REPLACE_WITH_DASH_DASH","Color",colors(i),"LineWidth",1.5);
+
+end
+xlabel('$x$');
+ylabel('$y$');
+grid on
+% xlim([0 1])
+set(gca,'fontsize', fontsize)
+
+%% Problem 4 
+
+% See paper
+
+
+%% Problem 8 
+
+% Part a
+year = 1993:2:2007;
+concen = [12 12.7 13 15.2 18.2 19.8 24.1 28.1];
+
+year_smooth = linspace(min(year),max(year),1e3);
+
+query = 2009; % point to be interpolated
+
+n = length(year)-1;
+concen_interp = interpl(year,concen,n,query);
+
+for i = 1:length(year_smooth)
+
+concen_interp_smooth(i) = interpl(year,concen,n,year_smooth(i));
+
+end
+
+figure
+hold on 
+plot(year,concen,'ko')
+plot(year_smooth,concen_interp_smooth,"r","LineWidth",1.5)
+xlabel('Year');
+ylabel('Toxin Concentration');
+grid on
+% xlim([0 1])
+set(gca,'fontsize', fontsize)
+legend("Data",strcat("$ P_{",string(n),"}$"),'Interpreter','Latex','location','best')
+
+%{
+Comments: 
+The prediction of a negative toxin concentration in 2009 is unsensical. 
+This is because this uses an 7th order polynomial which ocilates wildly 
+near the end points.
+%}
+
+% ========================================================================
+% Part b & c
+ 
+year_b = [year(1:2) year(5:end)];
+concen_b = [concen(1:2) concen(5:end)];
+
+query = [1997,1999]; % point to be interpolated
+
+n = length(year_b)-1;
+for i = 1:2
+concen_interp_b(i) = interpl(year_b,concen_b,n,query(i));
+spline_interp_b(i) = interp1(year_b,concen_b,query(i),"spline");
+end
+disp(concen(3:4))
+disp(concen_interp_b)
+disp(spline_interp_b)
+
+
+
+
+
+figure
+hold on 
+plot(year,concen,'ko')
+plot(query,concen_interp_b,'ro')
+plot(query,spline_interp_b,'bo')
+% plot(year_smooth,concen_interp_smooth,"r","LineWidth",1.5)
+xlabel('Year');
+ylabel('Toxin Concentration');
+grid on
+% xlim([0 1])
+set(gca,'fontsize', fontsize)
+legend("Data",strcat("$ P_{",string(n),"}$"),"Cubic Spline",'Interpreter','Latex','location','best')
+
+%{
+ Comments on the difference in interpolation using both Lagrangian and Cubic Spline
+
+Both methods over predict the concentration of toxin, however the cubic
+spline is closest to the original data. This is because the Lagrangian 
+polynomial fit to the data set is of 5th order. This is a rather large
+polynomial for interpolation and thus causes some ocilations near the
+edges of the data set. For example, in this data set the value of the third
+and fourth indexes are 3.23 and 2.68 respectively. This is because the
+accuracy decays as we move farther from the center point. The same is true
+for the cubic polynomial but is less pronounced, resulting in a closer
+interpolation to the original data.
+
+
+ 
+%}
+
+%% Problem 9
+
+% Derivation - See paper
+
+
+%% Functions 
+function value = interpl(x,y,n,query)
+%{
+Lagrangian Interpolation
+
+input: 
+x is a vector of independent points
+y is a vector of points dependent on x
+n is the order of the polynomial interpolation
+query is the independent value to be interpolated
+
+output:
+
+value is the interpolated estimate of query 
+
+%}
+
+% nearest n+1 points are needed
+indices = zeros(1, n+1);
+x_dummy = x;
+
+for k = 1:n+1
+    [dummy, index] = min(abs(query -  x_dummy));
+    x_close(k) = x(index);
+    y_close(k) = y(index);
+    indices(k) = index;
+    x_dummy(index) = nan;
+end
+
+% Sort indices to match the original order
+[~, sortOrder] = sort(indices);
+x_close = x_close(sortOrder);
+y_close = y_close(sortOrder);
+
+
+for j = 1:n+1
+    for i = 1:n+1
+        if i == j
+            L_num(i) = nan;
+            L_den(i) = nan;
+        else
+            L_num(i) = query-(x_close(i));
+            L_den(i) = x_close(j)-x_close(i);
+        end
+    end
+    L(j) = (prod(L_num(~isnan(L_num)))/prod(L_den(~isnan(L_den))));
+end
+
+value = sum(y_close.*L);
+
+end
+
+
+function value = interpN(x,y,n,query) 
+%{
+Newtonian Interpolation
+
+input: 
+x is a vector of independent points
+y is a vector of points dependent on x
+n is the order of the polynomial interpolation
+query is the independent value to be interpolated
+
+output:
+
+value is the interpolated estimate of query 
+
+%}
+
+% nearest n+1 points are needed
+indices = zeros(1, n+1);
+x_dummy = x;
+
+for k = 1:n+1
+    [dummy, index] = min(abs(query - x_dummy));
+    x_close(k) = x(index);
+    y_close(k) = y(index);
+    indices(k) = index;
+    x_dummy(index) = nan;
+end
+
+% Sort indices to match the original order
+[~, sortOrder] = sort(indices);
+x_close = x_close(sortOrder);
+y_close = y_close(sortOrder);
+
+% Construct the divided differences table
+div_diff = zeros(n+1, n+1);
+div_diff(:,1) = y_close';
+
+for j = 2:n+1
+    for i = 1:n-j+1
+        div_diff(i,j) = (div_diff(i+1,j-1) - div_diff(i,j-1)) / (x_close(i+j-1) - x_close(i));
+    end
+end
+
+% Perform the interpolation
+value = div_diff(1,1);
+prod_term = 1;
+
+for i = 1:n
+    prod_term = prod_term * (query - x_close(i));
+    value = value + div_diff(1,i+1) * prod_term;
+end
+
+end
+
+
+
+
+##### SOURCE END #####
+--></body></html>
