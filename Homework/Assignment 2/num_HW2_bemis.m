@@ -59,13 +59,23 @@ X3 = linsolve(A3,B3)
 
 kh = linspace(0,2*pi);
 k_prime_square = 2-2*cos(kh);
-
+k_prime_square_2 = 12*(2-2*cos(kh))./(10+2*cos(kh));
 
 figure
 plot(kh,kh)
 hold on
-plot(kh,k_prime_square.^.5) 
+plot(kh,k_prime_square.^.5)
+plot(kh,k_prime_square_2.^.5)
+xlim([0,pi])
 
 % part b
 
+syms h
 A4 = [0 0 1 1 1; 0 0 -h 0 h; 1 1 h^2/2 0 h^2/2; -h h -h^3/6 0 h^3/6; h^2/2 h^2/2 h^4/24 0 h^4/24];
+B4 = [0; 0; -1; 0; 0];
+
+X4 = linsolve(A4,B4)
+
+
+
+
