@@ -65,3 +65,7 @@ figure
 plot(kh,kh)
 hold on
 plot(kh,k_prime_square.^.5) 
+
+% part b
+
+A4 = [0 0 1 1 1; 0 0 -h 0 h; 1 1 h^2/2 0 h^2/2; -h h -h^3/6 0 h^3/6; h^2/2 h^2/2 h^4/24 0 h^4/24];
