@@ -28,7 +28,33 @@ colors  = ["#000000","#1b9e77","#d95f02","#7570b3","#0099FF","#FF0000"];
 
 
 %% problem 1
+del_h = linspace(1,1e-5,1e3);
+x = 1.5;
+exact = -25*sin(5*x);
 
+for i = 1:length(del_h)
+
+    der_app(i) = (sin(5*(x-2*del_h(i))) - 2* sin(5*(x)) + sin(5*(x+2*del_h(i)))) / (4*del_h(i)^2);
+    pop_app(i) = (sin(5*(x-1*del_h(i))) - 2* sin(5*(x)) + sin(5*(x+1*del_h(i)))) / (del_h(i)^2);
+    der_err(i) = abs(der_app(i)-exact);
+    pop_err(i) = abs(pop_app(i)-exact);
+end
+
+figure
+loglog(del_h,der_err,'o')
+hold on 
+loglog(del_h,pop_err,'*')
+legend("Derived", "Popular",Location="northwest")
+grid on
+xlabel('$ln(h)$')
+ylabel('$ln(error)$')
+
+%{
+Comments on plot. 
+
+The derived and popular finite differencing formulas both 
+
+%}
 
 %% problem 2
 syms h
@@ -59,12 +85,17 @@ X3 = linsolve(A3,B3)
 
 kh = linspace(0,2*pi);
 k_prime_square = 2-2*cos(kh);
-k_prime_square_2 = 12*(2-2*cos(kh))./(10-2*cos(kh));
+k_prime_square_2 = 12*(2-2*cos(kh))./(10+2*cos(kh));
 
 figure
-plot(kh,kh)
+plot(kh,kh,Color=colors(1),LineWidth=1.5)
 hold on
-plot(kh,k_prime_square.^.5) 
+plot(kh,k_prime_square.^.5,Color=colors(2),LineWidth=1.5)
+plot(kh,k_prime_square_2.^.5,Color=colors(3),LineWidth=1.5)
+xlim([0,pi])
+legend("Ideal","2nd Order Central","4nd Order Pade",Location="northwest")
+xlabel("$kh$")
+ylabel("$k'h$")
 
 % part b
 

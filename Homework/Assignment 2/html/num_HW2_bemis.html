@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>num_HW2_bemis</title>
+<meta name="generator" content="MATLAB 24.1">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-09-24">
+<meta name="DC.source" content="num_HW2_bemis.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#2">Preparation of the Workspace</a>
+</li>
+<li>
+<a href="#3">Preperation of Figures</a>
+</li>
+<li>
+<a href="#4">problem 1</a>
+</li>
+<li>
+<a href="#5">problem 2</a>
+</li>
+<li>
+<a href="#6">problem 3</a>
+</li>
+<li>
+<a href="#7">problem 4</a>
+</li>
+</ul>
+</div>
+<pre class="codeinput">
+<span class="comment">%{
+</span><span class="comment">
+</span><span class="comment">@author: Benjamin Bemis Ph.D Student,
+</span><span class="comment">Advisor: Dr Juliano
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">Description:
+</span><span class="comment">AME 60614: Numerical Methods
+</span><span class="comment">Homework: 2
+</span><span class="comment">Due: 9/24/2024
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre>
+<h2 id="2">Preparation of the Workspace</h2>
+<pre class="codeinput">clear <span class="string">all</span>
+clc
+close <span class="string">all</span>
+</pre>
+<h2 id="3">Preperation of Figures</h2>
+<pre class="codeinput">fontsize = 16;
+set(0,<span class="string">'DefaultTextInterpreter'</span>,<span class="string">'latex'</span>)
+set(0,<span class="string">'DefaultAxesFontSize'</span>,fontsize)
+set(0,<span class="string">'DefaultLegendFontSize'</span>,fontsize)
+colors  = [<span class="string">"#000000"</span>,<span class="string">"#1b9e77"</span>,<span class="string">"#d95f02"</span>,<span class="string">"#7570b3"</span>,<span class="string">"#0099FF"</span>,<span class="string">"#FF0000"</span>];
+</pre>
+<h2 id="4">problem 1</h2>
+<pre class="codeinput">del_h = linspace(1,1e-5,1e3);
+x = 1.5;
+exact = -25*sin(5*x);
+
+<span class="keyword">for</span> i = 1:length(del_h)
+
+    der_app(i) = (sin(5*(x-2*del_h(i))) - 2* sin(5*(x)) + sin(5*(x+2*del_h(i)))) / (4*del_h(i)^2);
+    pop_app(i) = (sin(5*(x-1*del_h(i))) - 2* sin(5*(x)) + sin(5*(x+1*del_h(i)))) / (del_h(i)^2);
+    der_err(i) = abs(der_app(i)-exact);
+    pop_err(i) = abs(pop_app(i)-exact);
+<span class="keyword">end</span>
+
+figure
+loglog(del_h,der_err,<span class="string">'o'</span>)
+hold <span class="string">on</span>
+loglog(del_h,pop_err,<span class="string">'*'</span>)
+legend(<span class="string">"Derived"</span>, <span class="string">"Popular"</span>,Location=<span class="string">"northwest"</span>)
+grid <span class="string">on</span>
+xlabel(<span class="string">'$ln(h)$'</span>)
+ylabel(<span class="string">'$ln(error)$'</span>)
+
+<span class="comment">%{
+</span><span class="comment">Comments on plot.
+</span><span class="comment">
+</span><span class="comment">The derived and popular finite differencing formulas both become second
+</span><span class="comment">order accurate. However, the popular formula has less error over all and is
+</span><span class="comment">more receptive of larger grid spacing.
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre>
+<img vspace="5" hspace="5" src="num_HW2_bemis_01.png" alt=""> <h2 id="5">problem 2</h2>
+<pre class="codeinput">syms <span class="string">h</span>
+A = [ 1 1 1 1; -h 0 h 2*h; h^2/2 0 h^2/2 2*h^2; -h^3/6 0 h^3/6 (2*h)^3/6];
+B = [0;-1;0;0];
+
+X = linsolve(A,B)
+</pre>
+<pre class="codeoutput"> 
+X =
+ 
+1/(3*h)
+1/(2*h)
+   -1/h
+1/(6*h)
+ 
+</pre>
+<h2 id="6">problem 3</h2>
+<pre class="codeinput">
+<span class="comment">% part a</span>
+syms <span class="string">h</span> <span class="string">a</span>
+A2 = [1 1 1 1; 0 h 2*h 3*h; 0 h^2/2 2*h^2 (3*h)^2/2;0 h^3/6 (2*h)^3/6 (3*h)^3/6];
+B2 = [0;-1-a;-a*h;-a*h^2/2];
+
+X2 = linsolve(A2,B2)
+
+
+<span class="comment">% part b</span>
+
+syms <span class="string">h</span>
+A3 = [0 1 1 1 1; 1 0 h 2*h 3*h; h 0 h^2/2 2*h^2 (3*h)^2/2; h^2/2 0 h^3/6 (2*h)^3/6 (3*h)^3/6; h^3/6 0 h^4/24 (2*h)^4/24 (3*h)^4/24];
+B3 = [0;-1;0;0;0];
+
+X3 = linsolve(A3,B3)
+</pre>
+<pre class="codeoutput"> 
+X2 =
+ 
+(2*a + 11)/(6*h)
+   (a - 6)/(2*h)
+-(2*a - 3)/(2*h)
+   (a - 2)/(6*h)
+ 
+ 
+X3 =
+ 
+       3
+17/(6*h)
+-3/(2*h)
+-3/(2*h)
+ 1/(6*h)
+ 
+</pre>
+<h2 id="7">problem 4</h2>
+<pre class="codeinput">kh = linspace(0,2*pi);
+k_prime_square = 2-2*cos(kh);
+k_prime_square_2 = 12*(2-2*cos(kh))./(10+2*cos(kh));
+
+figure
+plot(kh,kh,Color=colors(1),LineWidth=1.5)
+hold <span class="string">on</span>
+plot(kh,k_prime_square.^.5,Color=colors(2),LineWidth=1.5)
+plot(kh,k_prime_square_2.^.5,Color=colors(3),LineWidth=1.5)
+xlim([0,pi])
+legend(<span class="string">"Ideal"</span>,<span class="string">"2nd Order Central"</span>,<span class="string">"4nd Order Pade"</span>,Location=<span class="string">"northwest"</span>)
+xlabel(<span class="string">"$kh$"</span>)
+ylabel(<span class="string">"$k'h$"</span>)
+
+<span class="comment">% part b</span>
+
+syms <span class="string">h</span>
+A4 = [0 0 1 1 1; 0 0 -h 0 h; 1 1 h^2/2 0 h^2/2; -h h -h^3/6 0 h^3/6; h^2/2 h^2/2 h^4/24 0 h^4/24];
+B4 = [0; 0; -1; 0; 0];
+
+X4 = linsolve(A4,B4)
+</pre>
+<pre class="codeoutput"> 
+X4 =
+ 
+      1/10
+      1/10
+-6/(5*h^2)
+12/(5*h^2)
+-6/(5*h^2)
+ 
+</pre>
+<img vspace="5" hspace="5" src="num_HW2_bemis_02.png" alt=""> <p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024a</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%{
+
+@author: Benjamin Bemis Ph.D Student, 
+Advisor: Dr Juliano
+
+
+Description:
+AME 60614: Numerical Methods
+Homework: 2
+Due: 9/24/2024
+
+
+%}
+
+%% Preparation of the Workspace
+
+clear all
+clc
+close all
+
+%% Preperation of Figures 
+
+fontsize = 16;
+set(0,'DefaultTextInterpreter','latex')
+set(0,'DefaultAxesFontSize',fontsize)
+set(0,'DefaultLegendFontSize',fontsize)
+colors  = ["#000000","#1b9e77","#d95f02","#7570b3","#0099FF","#FF0000"];
+
+
+%% problem 1
+del_h = linspace(1,1e-5,1e3);
+x = 1.5;
+exact = -25*sin(5*x);
+
+for i = 1:length(del_h)
+
+    der_app(i) = (sin(5*(x-2*del_h(i))) - 2* sin(5*(x)) + sin(5*(x+2*del_h(i)))) / (4*del_h(i)^2);
+    pop_app(i) = (sin(5*(x-1*del_h(i))) - 2* sin(5*(x)) + sin(5*(x+1*del_h(i)))) / (del_h(i)^2);
+    der_err(i) = abs(der_app(i)-exact);
+    pop_err(i) = abs(pop_app(i)-exact);
+end
+
+figure
+loglog(del_h,der_err,'o')
+hold on 
+loglog(del_h,pop_err,'*')
+legend("Derived", "Popular",Location="northwest")
+grid on
+xlabel('$ln(h)$')
+ylabel('$ln(error)$')
+
+%{
+Comments on plot. 
+
+The derived and popular finite differencing formulas both become second
+order accurate. However, the popular formula has less error over all and is
+more receptive of larger grid spacing.
+
+%}
+
+%% problem 2
+syms h
+A = [ 1 1 1 1; -h 0 h 2*h; h^2/2 0 h^2/2 2*h^2; -h^3/6 0 h^3/6 (2*h)^3/6];
+B = [0;-1;0;0];
+
+X = linsolve(A,B)
+
+%% problem 3
+
+% part a
+syms h a
+A2 = [1 1 1 1; 0 h 2*h 3*h; 0 h^2/2 2*h^2 (3*h)^2/2;0 h^3/6 (2*h)^3/6 (3*h)^3/6];
+B2 = [0;-1-a;-a*h;-a*h^2/2];
+
+X2 = linsolve(A2,B2)
+
+
+% part b
+
+syms h
+A3 = [0 1 1 1 1; 1 0 h 2*h 3*h; h 0 h^2/2 2*h^2 (3*h)^2/2; h^2/2 0 h^3/6 (2*h)^3/6 (3*h)^3/6; h^3/6 0 h^4/24 (2*h)^4/24 (3*h)^4/24];
+B3 = [0;-1;0;0;0];
+
+X3 = linsolve(A3,B3)
+
+%% problem 4
+
+kh = linspace(0,2*pi);
+k_prime_square = 2-2*cos(kh);
+k_prime_square_2 = 12*(2-2*cos(kh))./(10+2*cos(kh));
+
+figure
+plot(kh,kh,Color=colors(1),LineWidth=1.5)
+hold on
+plot(kh,k_prime_square.^.5,Color=colors(2),LineWidth=1.5)
+plot(kh,k_prime_square_2.^.5,Color=colors(3),LineWidth=1.5)
+xlim([0,pi])
+legend("Ideal","2nd Order Central","4nd Order Pade",Location="northwest")
+xlabel("$kh$")
+ylabel("$k'h$")
+
+% part b
+
+syms h
+A4 = [0 0 1 1 1; 0 0 -h 0 h; 1 1 h^2/2 0 h^2/2; -h h -h^3/6 0 h^3/6; h^2/2 h^2/2 h^4/24 0 h^4/24];
+B4 = [0; 0; -1; 0; 0];
+
+X4 = linsolve(A4,B4)
+
+
+
+
+
+##### SOURCE END #####
+-->
+</body>
+</html>
