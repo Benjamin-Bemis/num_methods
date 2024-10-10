@@ -48,12 +48,6 @@ plot(x,f)
 xlabel("$x$")
 ylabel("$f(x)$")
 
-%{
-Functions to generate  
-
-
-
-%}
 
 n=[10:10:1e3];
 syms X
@@ -79,7 +73,7 @@ xlabel("$n$")
 ylabel("$I_{exact}-I_{num}$")
 legend("Trap","Simpson","Trap Corrected")
 
-%% Problem 3
+%% Problem 3: Richardson Extrapolation
 
 func3 = @(X) (X+0.5).^(-2);
 dfunc3 = diff(func3,X);
@@ -97,6 +91,13 @@ plot(x,func3_plot)
 
 [value(1),h(1),error(1)] = rich_extrap(func3,1,ho,dfunc3_ex(1),tolerance);
 [value(2),h(2),error(2)] = rich_extrap(func3,5,ho,dfunc3_ex(2),tolerance);
+
+
+
+%% Problem 4 Gauss Quadriture
+alpha = 5;
+func4 = @(X) exp(-X^2)*cos(alpha*x);
+exact4 = sqrt(pi)*exp((-alpha^2)/4);
 
 %% Functions
 
@@ -186,50 +187,8 @@ function [df_rich,h,error] = rich_extrap(f,x,ho,exact,tolerance)
 h = h_current
 end
 
+function [value,grid] = gauss_quad(f,a,b,tolerance)
+tol_pannel = (ho*tolerance)/(b-a);
 
-function df_richardson = richardson_extrapolation_8th_order(f, x, h, tol)
-    % Preallocate array to store Richardson approximations at different step sizes
-    D = zeros(1, 4); % We will store D(h), D(h/2), D(h/4), D(h/8)
-    
-    % Initial central difference approximations at different step sizes
-    D(1) = (f(x + h) - f(x - h)) / (2 * h);        % D(h)
-    D(2) = (f(x + h/2) - f(x - h/2)) / (h);        % D(h/2)
-    D(3) = (f(x + h/4) - f(x - h/4)) / (h/2);      % D(h/4)
-    D(4) = (f(x + h/8) - f(x - h/8)) / (h/4);      % D(h/8)
-    
-    % Apply Richardson extrapolation to increase accuracy
-    for i = 1:3
-        for j = 1:(4-i)
-            D(j) = (2^(i+1) * D(j+1) - D(j)) / (2^(i+1) - 1);
-        end
-    end
-    
-    % Final approximation is the most accurate Richardson extrapolated result
-    df_richardson = D(1);
-    
-    % Optional: iterative refinement until the error is within the tolerance
-    error = inf;
-    h_current = h;
-    
-    while error > tol
-        h_current = h_current / 2; % Halve the step size
-        
-        % Recompute central differences
-        D(1) = (f(x + h_current) - f(x - h_current)) / (2 * h_current);
-        D(2) = (f(x + h_current/2) - f(x - h_current/2)) / h_current;
-        D(3) = (f(x + h_current/4) - f(x - h_current/4)) / (h_current/2);
-        D(4) = (f(x + h_current/8) - f(x - h_current/8)) / (h_current/4);
-        
-        % Apply Richardson extrapolation again for higher order
-        for i = 1:3
-            for j = 1:(4-i)
-                D(j) = (2^(i+1) * D(j+1) - D(j)) / (2^(i+1) - 1);
-            end
-        end
-        
-        % Check the error between successive iterations
-        error = abs(df_richardson - D(1));
-        df_richardson = D(1);  % Update the current best approximation
-    end
 end
 
