@@ -59,10 +59,19 @@ for i=1:length(n);
     t(i)=trapz(x,f);
     simp(i) = simpson(func,0,1,n(i));
     t_end(i) = trapz_end(func,0,1,n(i));
-    error(i)=abs(t(i)-t2(i));
-    error_simp(i)=abs(simp(i)-t2(i));
-    error_end(i)=abs(t_end(i)-t2(i));
+    
+    error(i)=abs(t2(i) - t(i));
+    error_simp(i)=abs(t2(i) - simp(i));
+    error_end(i)=abs(t2(i) - t_end(i));
 end
+
+t(end)
+simp(end)
+t_end(end)
+adapt = integral(func,0,1,ArrayValued = true,RelTol = 1e-5)
+error_ad=abs(t2(end) - adapt);
+
+
 figure
 semilogy(n,error)
 hold on 
@@ -96,9 +105,21 @@ plot(x,func3_plot)
 
 %% Problem 4 Gauss Quadriture
 alpha = 5;
-func4 = @(X) exp(-X^2)*cos(alpha*x);
+func4 = @(X) exp(-(X.^2)).*cos(alpha*X);
 exact4 = sqrt(pi)*exp((-alpha^2)/4);
 
+error = 1;
+n = 7
+
+while error >= 1e-5
+[xi,wi] = gauss_her(n);
+
+inner = wi.*cos(alpha*xi);
+
+I_num = sum(inner);
+error = abs(exact4 - I_num)
+n = n+1
+end
 %% Functions
 
 function [value] = simpson(f,a,b,n)
@@ -123,7 +144,6 @@ end
 value = double(h/3*(f(a)+f(b)+4*so+2*se));
 
 end
-
 
 function [value] = trapz_end(f,a,b,n)
 
@@ -187,8 +207,23 @@ function [df_rich,h,error] = rich_extrap(f,x,ho,exact,tolerance)
 h = h_current
 end
 
-function [value,grid] = gauss_quad(f,a,b,tolerance)
-tol_pannel = (ho*tolerance)/(b-a);
+function [x,w] = gauss_her(n);
+
+
+% Build Hn (Hermite Poly of order n) by recurrence :
+h(1,1)=1;
+h(2,1:2)=[2 0];
+for k=2:n
+    h(k+1,1:k+1)=2*[h(k,1:k) 0]-2*(k-1)*[0 0 h(k-1,1:k-1)];
+end
+
+
+Hn       = h(n+1,:);
+Hn_deriv = polyder(Hn);
+
+x        = roots(Hn);
+w        = 2^(n+1)*factorial(n)*sqrt(pi)  ./...
+           (polyval(Hn_deriv,x)).^2;
 
 end
 
