@@ -1,0 +1,1126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>hw_3</title>
+<meta name="generator" content="MATLAB 24.1">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-10-15">
+<meta name="DC.source" content="hw_3.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#2">Preperation of the workspace</a>
+</li>
+<li>
+<a href="#3">Problem 1</a>
+</li>
+<li>
+<a href="#4">Problem 2</a>
+</li>
+<li>
+<a href="#5">Problem 3: Richardson Extrapolation</a>
+</li>
+<li>
+<a href="#6">Problem 4 Gauss Quadriture</a>
+</li>
+<li>
+<a href="#7">Functions</a>
+</li>
+</ul>
+</div>
+<pre class="codeinput">
+<span class="comment">%{
+</span><span class="comment">
+</span><span class="comment">@author: Benjamin Bemis Ph.D Student,
+</span><span class="comment">Advisor: Dr Juliano
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">Description:
+</span><span class="comment">AME 60614: Numerical Methods
+</span><span class="comment">Homework: 3
+</span><span class="comment">Due: 10/10/2024
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre>
+<h2 id="2">Preperation of the workspace</h2>
+<pre class="codeinput">clear <span class="string">all</span>
+clc
+close <span class="string">all</span>
+fontsize = 16;
+
+
+<span class="comment">% set(0,'DefaultFigureWindowStyle','docked')</span>
+set(0,<span class="string">'DefaultTextInterpreter'</span>,<span class="string">'latex'</span>)
+set(0,<span class="string">'DefaultAxesFontSize'</span>,fontsize)
+set(0,<span class="string">'DefaultLegendFontSize'</span>,fontsize)
+colors  = [<span class="string">"#000000"</span>,<span class="string">"#1b9e77"</span>,<span class="string">"#d95f02"</span>,<span class="string">"#7570b3"</span>,<span class="string">"#0099FF"</span>];
+</pre>
+<h2 id="3">Problem 1</h2>
+<pre class="codeinput">
+<span class="comment">% Parameters</span>
+a = 0;
+b = pi;
+N = 60; <span class="comment">% Number of points for discretization</span>
+
+h = (b - a) / N; <span class="comment">% Step size</span>
+
+t = linspace(a,b,N+1);
+x = t;
+
+x_smooth = linspace(a,b,1e3);
+<span class="comment">% Exact solution</span>
+phi_exact = @(x) sin(3 * x);
+<span class="comment">% Construct RHS of vector f</span>
+f = pi * x.^2;
+
+<span class="comment">% Initialize matrix and right-hand side vector</span>
+k = zeros(N+1, N+1);
+b_vec = zeros(N, 1);
+
+<span class="comment">% Fill the matrix K (trapezoidal rule)</span>
+<span class="keyword">for</span> i = 1:N+1
+    <span class="keyword">for</span> j = 1:N+1
+        kval = 3*(0.5*sin(3*x(i)) - t(j)*x(i)^2);
+        <span class="keyword">if</span> j == 1 || j == N+1
+            K(i,j) = (h/2)*kval; <span class="comment">% half weight for end pts.</span>
+        <span class="keyword">else</span>
+            K(i,j) = h*kval; <span class="comment">% full weight for inner pts.</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Solve linear system (I-K)*phi = f for phi</span>
+I = eye(N+1); <span class="comment">% Identity matrix</span>
+A = I-K; <span class="comment">% Coefficient matrix</span>
+
+phi_num = A\f'; <span class="comment">% solving linear system</span>
+
+<span class="comment">% Plot the numerical and exact solutions for comparison</span>
+figure;
+plot(x, phi_num, <span class="string">'ro'</span>, <span class="string">'LineWidth'</span>, 2);
+hold <span class="string">on</span>;
+plot(x_smooth, phi_exact(x_smooth), <span class="string">'k-'</span>, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'x'</span>);
+ylabel(<span class="string">'$\phi(x)$'</span>);
+legend(<span class="string">'Numerical Solution'</span>, <span class="string">'Exact Solution'</span>);
+title(<span class="string">'Fredholm Integral Equation Solution'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% Calculate error</span>
+error = norm(phi_num - phi_exact(x)', Inf);
+disp([<span class="string">'Maximum error: '</span>, num2str(error)]);
+</pre>
+<pre class="codeoutput">Maximum error: 0.001406
+</pre>
+<img vspace="5" hspace="5" src="hw_3_01.png" alt=""> <h2 id="4">Problem 2</h2>
+<pre class="codeinput">func =@(X) (100/(sqrt(X+0.01)))+1/((X-0.3)^2+0.001) - pi;
+x = linspace(0,1,1000);
+
+<span class="keyword">for</span> i = 1:length(x)
+    f(i) = (100/(sqrt(x(i)+0.01)))+1/((x(i)-0.3)^2+0.001) - pi;
+<span class="keyword">end</span>
+
+figure
+plot(x,f)
+xlabel(<span class="string">"$x$"</span>)
+ylabel(<span class="string">"$f(x)$"</span>)
+
+
+n=[10:10:1e3];
+syms <span class="string">X</span>
+F=int((100/(sqrt(X+0.01)))+1/((X-0.3)^2+0.001) - pi,0,1);
+t2=double(F)*ones(size(n));
+<span class="keyword">for</span> i=1:length(n);
+    x=linspace(0,1,n(i));
+    f = (100./(sqrt(x+0.01)))+1./((x-0.3).^2+0.001) - pi;
+    t(i)=trapz(x,f);
+    simp(i) = simpson(func,0,1,n(i));
+    t_end(i) = trapz_end(func,0,1,n(i));
+
+    error(i)=abs(t2(i) - t(i));
+    error_simp(i)=abs(t2(i) - simp(i));
+    error_end(i)=abs(t2(i) - t_end(i));
+<span class="keyword">end</span>
+
+t(end)
+simp(end)
+t_end(end)
+adapt = quadgui(func,0,1,1e-2)
+
+
+
+figure
+semilogy(n,error)
+hold <span class="string">on</span>
+semilogy(n,error_simp)
+hold <span class="string">on</span>
+semilogy(n,error_end)
+xlabel(<span class="string">"$n$"</span>)
+ylabel(<span class="string">"$I_{exact}-I_{num}$"</span>)
+legend(<span class="string">"Trap"</span>,<span class="string">"Simpson"</span>,<span class="string">"Trap Corrected"</span>)
+</pre>
+<img vspace="5" hspace="5" src="hw_3_02.png" alt=""> <img vspace="5" hspace="5" src="hw_3_03.png" alt=""> <h2 id="5">Problem 3: Richardson Extrapolation</h2>
+<pre class="codeinput">func3 = @(X) (X+0.5).^(-2);
+dfunc3 = diff(func3,X);
+dfunc3_ex = [double(subs(dfunc3,1)),double(subs(dfunc3,5))];
+
+ho = 0.5;
+tolerance = 1e-5;
+
+x = linspace(0,6,1e3);
+func3_plot = func3(x);
+
+figure
+plot(x,func3_plot)
+
+
+[value(1),h(1),error(1)] = rich_extrap(func3,1,ho,dfunc3_ex(1),tolerance);
+[value(2),h(2),error(2)] = rich_extrap(func3,5,ho,dfunc3_ex(2),tolerance);
+</pre>
+<pre class="codeoutput">
+h =
+
+    0.5000
+
+
+h =
+
+    0.5000
+
+</pre>
+<img vspace="5" hspace="5" src="hw_3_04.png" alt=""> <h2 id="6">Problem 4 Gauss Quadriture</h2>
+<pre class="codeinput">alpha = 5;
+func4 = @(X) exp(-(X.^2)).*cos(alpha*X);
+exact4 = sqrt(pi)*exp((-alpha^2)/4);
+
+error = 1;
+n = 7
+
+<span class="keyword">while</span> error &gt;= 1e-5
+[xi,wi] = gauss_her(n);
+
+inner = wi.*cos(alpha*xi);
+
+I_num = sum(inner);
+error = abs(exact4 - I_num)
+n = n+1
+<span class="keyword">end</span>
+</pre>
+<pre class="codeoutput">
+n =
+
+     7
+
+
+error =
+
+    0.2526
+
+
+n =
+
+     8
+
+
+error =
+
+    0.1035
+
+
+n =
+
+     9
+
+
+error =
+
+    0.0375
+
+
+n =
+
+    10
+
+
+error =
+
+    0.0122
+
+
+n =
+
+    11
+
+
+error =
+
+    0.0036
+
+
+n =
+
+    12
+
+
+error =
+
+   9.7060e-04
+
+
+n =
+
+    13
+
+
+error =
+
+   2.4100e-04
+
+
+n =
+
+    14
+
+
+error =
+
+   5.5457e-05
+
+
+n =
+
+    15
+
+
+error =
+
+   1.1890e-05
+
+
+n =
+
+    16
+
+
+error =
+
+   2.3860e-06
+
+
+n =
+
+    17
+
+</pre>
+<h2 id="7">Functions</h2>
+<pre class="codeinput">
+<span class="keyword">function</span> [value] = simpson(f,a,b,n)
+
+h=(b-a)/n;
+<span class="keyword">if</span> rem(n,2)==1
+   fprintf(<span class="string">'\n Given n was odd. Creating even sub-interval:'</span>);
+   n=n+1;
+<span class="keyword">end</span>
+so=0;
+se=0;
+<span class="keyword">for</span> k=1:1:n-1
+    x(k)=a+k*h;
+    y(k)=f(x(k));
+    <span class="keyword">if</span> rem(k,2)==1
+       so=so+y(k);<span class="comment">%sum of odd terms</span>
+     <span class="keyword">else</span>
+       se=se+y(k); <span class="comment">%sum of even terms</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="comment">% Formula:  (h/3)*[(y0+yn)+4*(y1+y3+y5+..odd term)+2*(y2+y4+y6+...even terms)]</span>
+value = double(h/3*(f(a)+f(b)+4*so+2*se));
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [value] = trapz_end(f,a,b,n)
+
+h=(b-a)/n;
+
+inner_sum = 0;
+<span class="keyword">for</span> k=1:1:n-1
+    x(k)=a+k*h;
+    y(k)=f(x(k));
+    inner_sum = inner_sum+y(k);
+<span class="keyword">end</span>
+syms <span class="string">X</span>
+df = diff(f,X);
+df1 = double(subs(df,a));
+df2 = double(subs(df,b));
+value = double( h/2*(f(a)+f(b)+2*inner_sum) - h^2/12 *(df2-df1) );
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [df_rich,h,error] = rich_extrap(f,x,ho,exact,tolerance)
+    h = ho;
+    D = zeros(1, 4); <span class="comment">%Store D(h), D(h/2), D(h/4), D(h/8)</span>
+
+    <span class="comment">% Initial central difference approximations at different step sizes</span>
+    D(1) = (f(x + h) - f(x - h)) / (2 * h);        <span class="comment">% D(h)</span>
+    D(2) = (f(x + h/2) - f(x - h/2)) / (h);        <span class="comment">% D(h/2)</span>
+    D(3) = (f(x + h/4) - f(x - h/4)) / (h/2);      <span class="comment">% D(h/4)</span>
+    D(4) = (f(x + h/8) - f(x - h/8)) / (h/4);      <span class="comment">% D(h/8)</span>
+
+    <span class="comment">% Apply Richardson extrapolation</span>
+    <span class="keyword">for</span> i = 1:3
+        <span class="keyword">for</span> j = 1:(4-i)
+            D(j) = (2^(i+1) * D(j+1) - D(j)) / (2^(i+1) - 1);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+        df_rich = D(1);
+
+    error = abs(df_rich - exact);
+    h_current = h;
+
+    <span class="keyword">while</span> error &gt; tolerance
+        h_current = h_current / 2;
+
+        <span class="comment">% Recompute central differences</span>
+        D(1) = (f(x + h_current) - f(x - h_current)) / (2 * h_current);
+        D(2) = (f(x + h_current/2) - f(x - h_current/2)) / h_current;
+        D(3) = (f(x + h_current/4) - f(x - h_current/4)) / (h_current/2);
+        D(4) = (f(x + h_current/8) - f(x - h_current/8)) / (h_current/4);
+
+        <span class="comment">% Apply Richardson extrapolation again for higher order</span>
+        <span class="keyword">for</span> i = 1:3
+            <span class="keyword">for</span> j = 1:(4-i)
+                D(j) = (2^(i+1) * D(j+1) - D(j)) / (2^(i+1) - 1);
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Check the error between successive iterations</span>
+        error = abs(df_rich - exact);
+        df_rich = D(1);  <span class="comment">% Update the current best approximation</span>
+    <span class="keyword">end</span>
+h = h_current
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [x,w] = gauss_her(n);
+
+
+<span class="comment">% Build Hn (Hermite Poly of order n) by recurrence :</span>
+h(1,1)=1;
+h(2,1:2)=[2 0];
+<span class="keyword">for</span> k=2:n
+    h(k+1,1:k+1)=2*[h(k,1:k) 0]-2*(k-1)*[0 0 h(k-1,1:k-1)];
+<span class="keyword">end</span>
+
+
+Hn       = h(n+1,:);
+Hn_deriv = polyder(Hn);
+
+x        = roots(Hn);
+w        = 2^(n+1)*factorial(n)*sqrt(pi)  ./<span class="keyword">...</span>
+           (polyval(Hn_deriv,x)).^2;
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [Q,fcount] = quadgui(F,a,b,tol,varargin)
+<span class="comment">%QUADGUI  Demonstrate numerical evaluation of a definite integral.</span>
+<span class="comment">%   Q = QUADGUI(F,A,B) shows the steps in approximating the integral</span>
+<span class="comment">%   of F(x) from A to B by adaptive extrapolated Simpson's quadrature.</span>
+<span class="comment">%</span>
+<span class="comment">%   The shaded area shows the integral over the current subinterval.</span>
+<span class="comment">%   The color switches to green when the desired accuracy is obtained.</span>
+<span class="comment">%</span>
+<span class="comment">%   Q = QUADGUI(F,A,B,tol) uses the given tolerance instead of 1.e-4.</span>
+<span class="comment">%</span>
+<span class="comment">%   F is a string defining a function of a single variable, an inline</span>
+<span class="comment">%   function, a function handle, or a symbolic expression involving a</span>
+<span class="comment">%   single variable.  Arguments to QUADGUI beyond the first four,</span>
+<span class="comment">%   Q = QUADGUI(F,a,b,tol,p1,p2,...), are passed on to the integrand,</span>
+<span class="comment">%   F(x,p1,p2,..).</span>
+<span class="comment">%</span>
+<span class="comment">%   [Q,fcount] = QUADGUI(F,...) also counts the number of evaluations</span>
+<span class="comment">%   of F(x).</span>
+<span class="comment">%</span>
+<span class="comment">%   Examples:</span>
+<span class="comment">%      quadgui(@humps,0,1)</span>
+<span class="comment">%      quadgui(@humps,0,1,1.e-6)</span>
+<span class="comment">%      quadgui(@humps,-1,2)</span>
+<span class="comment">%      quadgui('sin(x)',0,pi,1.e-8)</span>
+<span class="comment">%      quadgui('cos(x)',0,(9/2)*pi,1.e-6)</span>
+<span class="comment">%      quadgui('sqrt(x)',0,1,1.e-8)</span>
+<span class="comment">%      quadgui('-sqrt(x)*log(x)',eps,1,1.e-8)</span>
+<span class="comment">%      quadgui('1/(3*x-1)',0,1)</span>
+<span class="comment">%      quadgui('t^(8/3)*(1-t)^(10/3)',0,1,1.e-8)</span>
+<span class="comment">%      betafun = inline('t^p*(1-t)^q','t','p','q')</span>
+<span class="comment">%      quadgui(betafun,0,1,1.e-10,15,2)</span>
+<span class="comment">%</span>
+<span class="comment">%   See also QUADTX, QUAD, QUADL, DBLQUAD.</span>
+shg
+clf <span class="string">reset</span>
+set(gcf,<span class="string">'doublebuffer'</span>,<span class="string">'on'</span>,<span class="string">'menubar'</span>,<span class="string">'none'</span>, <span class="keyword">...</span>
+   <span class="string">'numbertitle'</span>,<span class="string">'off'</span>,<span class="string">'name'</span>,<span class="string">'Quad gui'</span>)
+<span class="comment">% Default tolerance</span>
+<span class="keyword">if</span> nargin &lt; 4 | isempty(tol)
+   tol = 1.e-4;
+<span class="keyword">end</span>
+<span class="comment">% Default function and interval.</span>
+<span class="keyword">if</span> nargin &lt; 3
+   F = @humps;
+   a = 0;
+   b = 1;
+<span class="keyword">end</span>
+<span class="comment">% Make F callable by feval.</span>
+<span class="keyword">if</span> ischar(F) &amp; exist(F)~=2
+   F = inline(F);
+<span class="keyword">elseif</span> isa(F,<span class="string">'sym'</span>)
+   F = inline(char(F));
+<span class="keyword">end</span>
+<span class="comment">% Initialization</span>
+c = (a + b)/2;
+fa = feval(F,a,varargin{:});
+fc = feval(F,c,varargin{:});
+fb = feval(F,b,varargin{:});
+<span class="comment">% Scale the plot</span>
+h = b - a;
+x = [a c b];
+y = [fa fc fb];
+maxy = max(y);
+miny = min(y);
+<span class="keyword">for</span> k = 1:63
+   v = feval(F,a+k*h/64,varargin{:});
+   maxy = real(max(maxy,v));
+   miny = real(min(miny,v));
+<span class="keyword">end</span>
+set(gcf,<span class="string">'userdata'</span>,0)
+plot(x,y,<span class="string">'.'</span>,<span class="string">'markersize'</span>,6);
+hold <span class="string">on</span>
+p(1) = fill(a,fa,<span class="string">'k'</span>);
+p(2) = fill(b,fb,<span class="string">'k'</span>);
+hold <span class="string">off</span>
+s = (maxy - miny)/20;
+axis([a b miny-s maxy+s])
+q(1) = uicontrol(<span class="string">'string'</span>,<span class="string">'step'</span>, <span class="keyword">...</span>
+   <span class="string">'units'</span>,<span class="string">'normal'</span>,<span class="string">'pos'</span>,[.65 .02 .08 .06], <span class="keyword">...</span>
+   <span class="string">'callback'</span>,<span class="string">'set(gcf,''userdata'',1)'</span>);
+q(2) = uicontrol(<span class="string">'string'</span>,<span class="string">'auto'</span>, <span class="keyword">...</span>
+   <span class="string">'units'</span>,<span class="string">'normal'</span>,<span class="string">'pos'</span>,[.75 .02 .08 .06], <span class="keyword">...</span>
+   <span class="string">'callback'</span>,<span class="string">'set(gcf,''userdata'',2)'</span>);
+q(3) = uicontrol(<span class="string">'string'</span>,<span class="string">'quit'</span>, <span class="keyword">...</span>
+   <span class="string">'units'</span>,<span class="string">'normal'</span>,<span class="string">'pos'</span>,[.85 .02 .08 .06], <span class="keyword">...</span>
+   <span class="string">'callback'</span>,<span class="string">'set(gcf,''userdata'',3)'</span>);
+<span class="comment">% Recursive call</span>
+[Q,k] = quadguistep(F, a, b, tol, fa, fc, fb, varargin{:});
+fcount = k + 3;
+<span class="comment">% Finish</span>
+title(sprintf(<span class="string">'Q = %8.4f, fcount = %4.0f'</span>,Q,fcount))
+delete(p);
+delete(q(1:2));
+set(q(3),<span class="string">'string'</span>,<span class="string">'close'</span>,<span class="string">'callback'</span>,<span class="string">'close(gcf)'</span>)
+<span class="keyword">end</span>
+<span class="comment">% ---------------------------------------------------------</span>
+<span class="keyword">function</span> [Q,fcount] = quadguistep(F,a,b,tol,fa,fc,fb,varargin)
+<span class="comment">% Recursive subfunction used by quadtx.</span>
+h = b - a;
+c = (a + b)/2;
+d = (a + c)/2;
+e = (c + b)/2;
+fd = feval(F,d,varargin{:});
+fe = feval(F,e,varargin{:});
+Q1 = h/6 * (fa + 4*fc + fb);
+Q2 = h/12 * (fa + 4*fd + 2*fc + 4*fe + fb);
+u1 = a:h/64:c;
+v1 = polyinterp([a d c],[fa fd fc],u1);
+u1 = [a u1 c];
+v1 = [0 v1 0];
+u2 = c:h/64:b;
+v2 = polyinterp([c e b],[fc fe fb],u2);
+u2 = [c u2 b];
+v2 = [0 v2 0];
+<span class="keyword">if</span> (abs(Q2 - Q1) &lt;= tol)
+   color = [0 2/3 0];
+<span class="keyword">else</span>
+   color = [.6 .6 .6];
+<span class="keyword">end</span>
+p = flipud(get(gca,<span class="string">'child'</span>));
+x = [get(p(1),<span class="string">'xdata'</span>) d e];
+y = [get(p(1),<span class="string">'ydata'</span>) fd fe];
+set(p(1),<span class="string">'xdata'</span>,x,<span class="string">'ydata'</span>,y)
+set(p(2),<span class="string">'xdata'</span>,u1,<span class="string">'ydata'</span>,v1,<span class="string">'facecolor'</span>,color)
+set(p(3),<span class="string">'xdata'</span>,u2,<span class="string">'ydata'</span>,v2,<span class="string">'facecolor'</span>,color)
+set(gca,<span class="string">'xtick'</span>,sort(x),<span class="string">'xticklabel'</span>,[]);
+title(num2str(length(x)))
+pause(.25)
+<span class="keyword">while</span> get(gcf,<span class="string">'userdata'</span>) == 0
+   pause(.25)
+<span class="keyword">end</span>
+<span class="keyword">if</span> get(gcf,<span class="string">'userdata'</span>) == 1
+   set(gcf,<span class="string">'userdata'</span>,0)
+<span class="keyword">end</span>
+<span class="keyword">if</span> (abs(Q2 - Q1) &lt;= tol) | (get(gcf,<span class="string">'userdata'</span>) == 3)
+   Q  = Q2 + (Q2 - Q1)/15;
+   fcount = 2;
+<span class="keyword">else</span>
+   [Qa,ka] = quadguistep(F, a, c, tol, fa, fd, fc, varargin{:});
+   [Qb,kb] = quadguistep(F, c, b, tol, fc, fe, fb, varargin{:});
+   Q  = Qa + Qb;
+   fcount = ka + kb + 2;
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">function</span> v = polyinterp(x,y,u)
+<span class="comment">%POLYINTERP  Polynomial interpolation.</span>
+<span class="comment">%   v = POLYINTERP(x,y,u) computes v(j) = P(u(j)) where P is the</span>
+<span class="comment">%   polynomial of degree d = length(x)-1 with P(x(i)) = y(i).</span>
+<span class="comment">%   Copyright 2014 Cleve Moler</span>
+
+<span class="comment">% Use Lagrangian representation.</span>
+<span class="comment">% Evaluate at all elements of u simultaneously.</span>
+n = length(x);
+v = zeros(size(u));
+<span class="keyword">for</span> k = 1:n
+   w = ones(size(u));
+   <span class="keyword">for</span> j = [1:k-1 k+1:n]
+      w = (u-x(j))./(x(k)-x(j)).*w;
+   <span class="keyword">end</span>
+   v = v + w*y(k);
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<pre class="codeoutput">
+ans =
+
+  272.4573
+
+
+ans =
+
+  272.4531
+
+
+ans =
+
+  272.4531
+
+
+adapt =
+
+  272.4534
+
+</pre>
+<p class="footer">Copyright 2014 The MathWorks, Inc.<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024a</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%{
+
+@author: Benjamin Bemis Ph.D Student, 
+Advisor: Dr Juliano
+
+
+Description:
+AME 60614: Numerical Methods
+Homework: 3
+Due: 10/10/2024
+
+
+%}
+
+%% Preperation of the workspace
+clear all 
+clc 
+close all
+fontsize = 16;
+
+
+% set(0,'DefaultFigureWindowStyle','docked')
+set(0,'DefaultTextInterpreter','latex')
+set(0,'DefaultAxesFontSize',fontsize)
+set(0,'DefaultLegendFontSize',fontsize)
+colors  = ["#000000","#1b9e77","#d95f02","#7570b3","#0099FF"];
+%% Problem 1
+
+
+% Parameters
+a = 0;
+b = pi;
+N = 60; % Number of points for discretization
+
+h = (b - a) / N; % Step size
+
+t = linspace(a,b,N+1);
+x = t;
+
+x_smooth = linspace(a,b,1e3);
+% Exact solution
+phi_exact = @(x) sin(3 * x);
+% Construct RHS of vector f
+f = pi * x.^2;
+
+% Initialize matrix and right-hand side vector
+k = zeros(N+1, N+1);
+b_vec = zeros(N, 1);
+
+% Fill the matrix K (trapezoidal rule)
+for i = 1:N+1
+    for j = 1:N+1
+        kval = 3*(0.5*sin(3*x(i)) - t(j)*x(i)^2);
+        if j == 1 || j == N+1
+            K(i,j) = (h/2)*kval; % half weight for end pts.
+        else
+            K(i,j) = h*kval; % full weight for inner pts.
+        end
+    end
+end
+
+% Solve linear system (I-K)*phi = f for phi
+I = eye(N+1); % Identity matrix
+A = I-K; % Coefficient matrix
+
+phi_num = A\f'; % solving linear system
+
+% Plot the numerical and exact solutions for comparison
+figure;
+plot(x, phi_num, 'ro', 'LineWidth', 2);
+hold on;
+plot(x_smooth, phi_exact(x_smooth), 'k-', 'LineWidth', 2);
+xlabel('x');
+ylabel('$\phi(x)$');
+legend('Numerical Solution', 'Exact Solution');
+title('Fredholm Integral Equation Solution');
+grid on;
+
+% Calculate error
+error = norm(phi_num - phi_exact(x)', Inf);
+disp(['Maximum error: ', num2str(error)]);
+
+
+%% Problem 2
+
+func =@(X) (100/(sqrt(X+0.01)))+1/((X-0.3)^2+0.001) - pi;
+x = linspace(0,1,1000);
+
+for i = 1:length(x)
+    f(i) = (100/(sqrt(x(i)+0.01)))+1/((x(i)-0.3)^2+0.001) - pi;
+end
+
+figure
+plot(x,f)
+xlabel("$x$")
+ylabel("$f(x)$")
+
+
+n=[10:10:1e3];
+syms X
+F=int((100/(sqrt(X+0.01)))+1/((X-0.3)^2+0.001) - pi,0,1);
+t2=double(F)*ones(size(n));
+for i=1:length(n);
+    x=linspace(0,1,n(i));
+    f = (100./(sqrt(x+0.01)))+1./((x-0.3).^2+0.001) - pi;
+    t(i)=trapz(x,f);
+    simp(i) = simpson(func,0,1,n(i));
+    t_end(i) = trapz_end(func,0,1,n(i));
+    
+    error(i)=abs(t2(i) - t(i));
+    error_simp(i)=abs(t2(i) - simp(i));
+    error_end(i)=abs(t2(i) - t_end(i));
+end
+
+t(end)
+simp(end)
+t_end(end)
+adapt = quadgui(func,0,1,1e-2)
+
+
+
+figure
+semilogy(n,error)
+hold on 
+semilogy(n,error_simp)
+hold on 
+semilogy(n,error_end)
+xlabel("$n$")
+ylabel("$I_{exact}-I_{num}$")
+legend("Trap","Simpson","Trap Corrected")
+
+%% Problem 3: Richardson Extrapolation
+
+func3 = @(X) (X+0.5).^(-2);
+dfunc3 = diff(func3,X);
+dfunc3_ex = [double(subs(dfunc3,1)),double(subs(dfunc3,5))];
+
+ho = 0.5;
+tolerance = 1e-5;
+
+x = linspace(0,6,1e3);
+func3_plot = func3(x);
+
+figure
+plot(x,func3_plot)
+
+
+[value(1),h(1),error(1)] = rich_extrap(func3,1,ho,dfunc3_ex(1),tolerance);
+[value(2),h(2),error(2)] = rich_extrap(func3,5,ho,dfunc3_ex(2),tolerance);
+
+
+
+%% Problem 4 Gauss Quadriture
+alpha = 5;
+func4 = @(X) exp(-(X.^2)).*cos(alpha*X);
+exact4 = sqrt(pi)*exp((-alpha^2)/4);
+
+error = 1;
+n = 7
+
+while error >= 1e-5
+[xi,wi] = gauss_her(n);
+
+inner = wi.*cos(alpha*xi);
+
+I_num = sum(inner);
+error = abs(exact4 - I_num)
+n = n+1
+end
+%% Functions
+
+function [value] = simpson(f,a,b,n)
+
+h=(b-a)/n;
+if rem(n,2)==1
+   fprintf('\n Given n was odd. Creating even sub-interval:'); 
+   n=n+1;
+end
+so=0;
+se=0;
+for k=1:1:n-1
+    x(k)=a+k*h;
+    y(k)=f(x(k));
+    if rem(k,2)==1
+       so=so+y(k);%sum of odd terms
+     else
+       se=se+y(k); %sum of even terms
+    end
+end
+% Formula:  (h/3)*[(y0+yn)+4*(y1+y3+y5+..odd term)+2*(y2+y4+y6+...even terms)]
+value = double(h/3*(f(a)+f(b)+4*so+2*se));
+
+end
+
+function [value] = trapz_end(f,a,b,n)
+
+h=(b-a)/n;
+
+inner_sum = 0;
+for k=1:1:n-1
+    x(k)=a+k*h;
+    y(k)=f(x(k));
+    inner_sum = inner_sum+y(k);
+end
+syms X
+df = diff(f,X);
+df1 = double(subs(df,a));
+df2 = double(subs(df,b));
+value = double( h/2*(f(a)+f(b)+2*inner_sum) - h^2/12 *(df2-df1) );
+
+end
+
+function [df_rich,h,error] = rich_extrap(f,x,ho,exact,tolerance)
+    h = ho;
+    D = zeros(1, 4); %Store D(h), D(h/2), D(h/4), D(h/8)
+    
+    % Initial central difference approximations at different step sizes
+    D(1) = (f(x + h) - f(x - h)) / (2 * h);        % D(h)
+    D(2) = (f(x + h/2) - f(x - h/2)) / (h);        % D(h/2)
+    D(3) = (f(x + h/4) - f(x - h/4)) / (h/2);      % D(h/4)
+    D(4) = (f(x + h/8) - f(x - h/8)) / (h/4);      % D(h/8)
+    
+    % Apply Richardson extrapolation
+    for i = 1:3
+        for j = 1:(4-i)
+            D(j) = (2^(i+1) * D(j+1) - D(j)) / (2^(i+1) - 1);
+        end
+    end
+        df_rich = D(1);
+    
+    error = abs(df_rich - exact);
+    h_current = h;
+    
+    while error > tolerance
+        h_current = h_current / 2;
+        
+        % Recompute central differences
+        D(1) = (f(x + h_current) - f(x - h_current)) / (2 * h_current);
+        D(2) = (f(x + h_current/2) - f(x - h_current/2)) / h_current;
+        D(3) = (f(x + h_current/4) - f(x - h_current/4)) / (h_current/2);
+        D(4) = (f(x + h_current/8) - f(x - h_current/8)) / (h_current/4);
+        
+        % Apply Richardson extrapolation again for higher order
+        for i = 1:3
+            for j = 1:(4-i)
+                D(j) = (2^(i+1) * D(j+1) - D(j)) / (2^(i+1) - 1);
+            end
+        end
+        
+        % Check the error between successive iterations
+        error = abs(df_rich - exact);
+        df_rich = D(1);  % Update the current best approximation
+    end
+h = h_current
+end
+
+function [x,w] = gauss_her(n);
+
+
+% Build Hn (Hermite Poly of order n) by recurrence :
+h(1,1)=1;
+h(2,1:2)=[2 0];
+for k=2:n
+    h(k+1,1:k+1)=2*[h(k,1:k) 0]-2*(k-1)*[0 0 h(k-1,1:k-1)];
+end
+
+
+Hn       = h(n+1,:);
+Hn_deriv = polyder(Hn);
+
+x        = roots(Hn);
+w        = 2^(n+1)*factorial(n)*sqrt(pi)  ./...
+           (polyval(Hn_deriv,x)).^2;
+
+end
+
+function [Q,fcount] = quadgui(F,a,b,tol,varargin)
+%QUADGUI  Demonstrate numerical evaluation of a definite integral.
+%   Q = QUADGUI(F,A,B) shows the steps in approximating the integral
+%   of F(x) from A to B by adaptive extrapolated Simpson's quadrature.
+%
+%   The shaded area shows the integral over the current subinterval.
+%   The color switches to green when the desired accuracy is obtained.
+%
+%   Q = QUADGUI(F,A,B,tol) uses the given tolerance instead of 1.e-4.
+%
+%   F is a string defining a function of a single variable, an inline
+%   function, a function handle, or a symbolic expression involving a
+%   single variable.  Arguments to QUADGUI beyond the first four,
+%   Q = QUADGUI(F,a,b,tol,p1,p2,...), are passed on to the integrand,
+%   F(x,p1,p2,..).
+%
+%   [Q,fcount] = QUADGUI(F,...) also counts the number of evaluations
+%   of F(x).
+%   
+%   Examples:
+%      quadgui(@humps,0,1)
+%      quadgui(@humps,0,1,1.e-6)
+%      quadgui(@humps,-1,2)
+%      quadgui('sin(x)',0,pi,1.e-8)
+%      quadgui('cos(x)',0,(9/2)*pi,1.e-6)
+%      quadgui('sqrt(x)',0,1,1.e-8)
+%      quadgui('-sqrt(x)*log(x)',eps,1,1.e-8)
+%      quadgui('1/(3*x-1)',0,1)
+%      quadgui('t^(8/3)*(1-t)^(10/3)',0,1,1.e-8)
+%      betafun = inline('t^p*(1-t)^q','t','p','q')
+%      quadgui(betafun,0,1,1.e-10,15,2)
+%
+%   See also QUADTX, QUAD, QUADL, DBLQUAD.
+shg
+clf reset
+set(gcf,'doublebuffer','on','menubar','none', ...
+   'numbertitle','off','name','Quad gui')
+% Default tolerance
+if nargin < 4 | isempty(tol)
+   tol = 1.e-4;
+end
+% Default function and interval.
+if nargin < 3
+   F = @humps;
+   a = 0;
+   b = 1;
+end
+% Make F callable by feval.
+if ischar(F) & exist(F)~=2
+   F = inline(F);
+elseif isa(F,'sym')
+   F = inline(char(F));
+end 
+% Initialization
+c = (a + b)/2;
+fa = feval(F,a,varargin{:});
+fc = feval(F,c,varargin{:});
+fb = feval(F,b,varargin{:});
+% Scale the plot
+h = b - a;
+x = [a c b];
+y = [fa fc fb];
+maxy = max(y);
+miny = min(y);
+for k = 1:63
+   v = feval(F,a+k*h/64,varargin{:});
+   maxy = real(max(maxy,v));
+   miny = real(min(miny,v));
+end
+set(gcf,'userdata',0)
+plot(x,y,'.','markersize',6);
+hold on
+p(1) = fill(a,fa,'k');
+p(2) = fill(b,fb,'k');
+hold off
+s = (maxy - miny)/20;
+axis([a b miny-s maxy+s])
+q(1) = uicontrol('string','step', ...
+   'units','normal','pos',[.65 .02 .08 .06], ...
+   'callback','set(gcf,''userdata'',1)');
+q(2) = uicontrol('string','auto', ...
+   'units','normal','pos',[.75 .02 .08 .06], ...
+   'callback','set(gcf,''userdata'',2)');
+q(3) = uicontrol('string','quit', ...
+   'units','normal','pos',[.85 .02 .08 .06], ...
+   'callback','set(gcf,''userdata'',3)');
+% Recursive call 
+[Q,k] = quadguistep(F, a, b, tol, fa, fc, fb, varargin{:});
+fcount = k + 3;
+% Finish
+title(sprintf('Q = %8.4f, fcount = %4.0f',Q,fcount))
+delete(p);
+delete(q(1:2));
+set(q(3),'string','close','callback','close(gcf)')
+end
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+function [Q,fcount] = quadguistep(F,a,b,tol,fa,fc,fb,varargin)
+% Recursive subfunction used by quadtx.
+h = b - a; 
+c = (a + b)/2;
+d = (a + c)/2;
+e = (c + b)/2;
+fd = feval(F,d,varargin{:});
+fe = feval(F,e,varargin{:});
+Q1 = h/6 * (fa + 4*fc + fb);
+Q2 = h/12 * (fa + 4*fd + 2*fc + 4*fe + fb);
+u1 = a:h/64:c;
+v1 = polyinterp([a d c],[fa fd fc],u1);
+u1 = [a u1 c];
+v1 = [0 v1 0];
+u2 = c:h/64:b;
+v2 = polyinterp([c e b],[fc fe fb],u2);
+u2 = [c u2 b];
+v2 = [0 v2 0];
+if (abs(Q2 - Q1) <= tol)
+   color = [0 2/3 0];
+else
+   color = [.6 .6 .6];
+end
+p = flipud(get(gca,'child'));
+x = [get(p(1),'xdata') d e];
+y = [get(p(1),'ydata') fd fe];
+set(p(1),'xdata',x,'ydata',y)
+set(p(2),'xdata',u1,'ydata',v1,'facecolor',color)
+set(p(3),'xdata',u2,'ydata',v2,'facecolor',color)
+set(gca,'xtick',sort(x),'xticklabel',[]);
+title(num2str(length(x)))
+pause(.25)
+while get(gcf,'userdata') == 0
+   pause(.25)
+end
+if get(gcf,'userdata') == 1
+   set(gcf,'userdata',0)
+end
+if (abs(Q2 - Q1) <= tol) | (get(gcf,'userdata') == 3)
+   Q  = Q2 + (Q2 - Q1)/15;
+   fcount = 2;
+else
+   [Qa,ka] = quadguistep(F, a, c, tol, fa, fd, fc, varargin{:});
+   [Qb,kb] = quadguistep(F, c, b, tol, fc, fe, fb, varargin{:});
+   Q  = Qa + Qb;
+   fcount = ka + kb + 2;
+end
+end
+function v = polyinterp(x,y,u)
+%POLYINTERP  Polynomial interpolation.
+%   v = POLYINTERP(x,y,u) computes v(j) = P(u(j)) where P is the
+%   polynomial of degree d = length(x)-1 with P(x(i)) = y(i).
+%   Copyright 2014 Cleve Moler
+%   Copyright 2014 The MathWorks, Inc.
+% Use Lagrangian representation.
+% Evaluate at all elements of u simultaneously.
+n = length(x);
+v = zeros(size(u));
+for k = 1:n
+   w = ones(size(u));
+   for j = [1:k-1 k+1:n]
+      w = (u-x(j))./(x(k)-x(j)).*w;
+   end
+   v = v + w*y(k);
+end
+end
+##### SOURCE END #####
+-->
+</body>
+</html>
