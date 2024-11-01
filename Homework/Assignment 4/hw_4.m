@@ -26,7 +26,7 @@ set(0,'DefaultLegendFontSize',fontsize)
 colors  = ["#000000","#1b9e77","#d95f02","#7570b3","#0099FF"]';
 
 %% Problem 2 in Chapter 4
-
+exact = @(t) 0.90991./(exp(0.2*t) + 0.900901*sin(2*t) - 0.0900901*cos(2*t));
 f = @(t,y) (-0.2*y) - (2*cos(2*t)*y^2);
 y0 = 1;
 t0 = 0;
@@ -34,11 +34,14 @@ tf = 7;
 h = [0.2 0.05 0.025 0.006];
 
 figure
+plot(linspace(t0,tf,1e3),exact(linspace(t0,tf,1e3)),"LineWidth",2, 'DisplayName', "Exact", color=colors(1,:))
+hold on
 for n = 1:size(h,2)
        [t,y] = explicitEuler(f, y0, t0, tf, h(n));
-       plot(t,y, "LineWidth",2, 'DisplayName',strcat("h = ",string(h(n))) , color=colors(n,:))
+       plot(t,y,"-.", "LineWidth",2, 'DisplayName',strcat("h = ",string(h(n))) , color=colors(n+1,:))
        hold on
 end
+
 xlabel('$t$ (sec)')
 ylabel('$v$')
 grid on
@@ -48,21 +51,99 @@ legend(Location="best",Interpreter="latex")
 
 
 %% Problem 6 in Chapter 4
-
+funlist = {@explicitEuler, @implicitEuler,@trapMethod,@RK2,@RK4};
+funlist_str = ["Explicit Euler", "Implicit Euler","Trapizoidal Method","RK2","RK4"];
 f = @(t,y) -((3*t)/(1+t))*y - (2*(1+t)^3*exp(-t));
 y0 = 1;
 t0 = 0;
 tf = 15;
 h = [0.2 0.8 1.1];
+exact = @(t) -exp(-3*t).*(exp(2*t) - 2).*(t + 1).^3;
+for i = 1:length(funlist)
+    figure
+    plot(linspace(t0,tf,1e3),exact(linspace(t0,tf,1e3)),"LineWidth",2, 'DisplayName', "Exact", color=colors(1,:))
+    hold on
+    for n = 1:length(h) 
 
+    [t,y] = funlist{i}(f, y0, t0, tf, h(n));
+    plot(t,y, "-.", "LineWidth",2, 'DisplayName',strcat("h = ",string(h(n))) , color=colors(n+1,:))
+    hold on
+
+
+    end
+    xlabel('$t$ (sec)')
+    ylabel('$v$')
+    legend(Location="best",Interpreter="latex")
+    xlim([t0 tf])
+    ylim([-4 1])
+    grid on
+    title(funlist_str(i))
+end
 
 
 
 
 %% Problem 8 in Chapter 4
+funlist2 = {@explicitEuler_2, @implicitEuler_2,@trapMethod_2,@RK2_2,@RK4_2};
+funlist_str = ["Explicit Euler", "Implicit Euler","Trapizoidal Method","RK2","RK4"];
+exact = @(t) 10*cos(4.04351*t);
+exact2 = @(t) exp(-2* t).* (5.6911* sin(3.51426 *t) + 10 *cos(3.51426*t));
+g = 9.81; %m/s^2
+l = 0.6; %m
+c = 4; 
+theta0= 10; %deg
+thetap0 = 0; % assume at rest
+f_theta = @(t, theta, thetap) -g/l *theta*t ; 
+f_theta_2 = @(t, theta, thetap) -g/l *theta*t -c*thetap ; 
 
 
 
+t0 = 0;
+tf = 6;
+h = [.15 .5 1];
+
+% for i = 1:length(funlist2)
+i = 5;    
+figure
+    plot(linspace(t0,tf,1e3),exact(linspace(t0,tf,1e3)),"LineWidth",2, 'DisplayName', "Exact", color=colors(1,:))
+    hold on
+    for n = 1:length(h) 
+
+    [t,y,yp] = funlist2{i}(f_theta,theta0,thetap0, t0, tf, h(n));
+    plot(t,y, "-.", "LineWidth",2, 'DisplayName',strcat("h = ",string(h(n))) , color=colors(n+1,:))
+    hold on
+
+
+    end
+    xlabel('$t$ (sec)')
+    ylabel('$\theta$')
+    legend(Location="best",Interpreter="latex")
+    xlim([t0 tf])
+    ylim([-12 12])
+    grid on
+    title(funlist_str(i))
+% end
+
+
+figure
+    plot(linspace(t0,tf,1e3),exact2(linspace(t0,tf,1e3)),"LineWidth",2, 'DisplayName', "Exact", color=colors(1,:))
+    hold on
+    for n = 1:length(h) 
+
+    [t,y,yp] = funlist2{i}(f_theta_2,theta0,thetap0, t0, tf, h(n));
+    plot(t,y, "-.", "LineWidth",2, 'DisplayName',strcat("h = ",string(h(n))) , color=colors(n+1,:))
+    hold on
+
+
+    end
+    xlabel('$t$ (sec)')
+    ylabel('$\theta$')
+    legend(Location="best",Interpreter="latex")
+    xlim([t0 tf])
+    ylim([-12 12])
+    grid on
+    title(funlist_str(i))
+% end
 
 
 %% Functions
@@ -224,5 +305,57 @@ function [t, y] = RK4(f, y0, t0, tf, h)
         k3 = f(t(n) + h/2, y(n) + h/2 * k2);
         k4 = f(t(n) + h, y(n) + h * k3);
         y(n+1) = y(n) + (h/6) * (k1 + 2*k2 + 2*k3 + k4);
+    end
+end
+
+
+
+function [t, y1, y2] = RK4_2(f, y0, v0, t0, tf, h)
+    % RK4_2
+ 
+    % Inputs:
+    %   f  - Function handle for y'' = f(t, y, y')
+    %   y0 - Initial condition for y (y(t0) = y0)
+    %   v0 - Initial condition for y' (y'(t0) = v0)
+    %   t0 - Initial time
+    %   tf - Final time
+    %   h  - Step size
+    %
+    % Outputs:
+    %   t  - Array of time steps
+    %   y1 - Array of solution values for y at each time step
+    %   y2 - Array of solution values for y' at each time step
+
+    % Define the time vector from t0 to tf with step size h
+    t = t0:h:tf;
+    N = length(t); % Number of time steps
+    y1 = zeros(1, N); % Preallocate y1 for y
+    y2 = zeros(1, N); % Preallocate y2 for y'
+
+    % Set the initial conditions
+    y1(1) = y0;
+    y2(1) = v0;
+
+    % Apply the 4th-order Runge-Kutta method
+    for n = 1:N-1
+        % Calculate k1 values
+        k1_y1 = y2(n);
+        k1_y2 = f(t(n), y1(n), y2(n));
+
+        % Calculate k2 values
+        k2_y1 = y2(n) + h/2 * k1_y2;
+        k2_y2 = f(t(n) + h/2, y1(n) + h/2 * k1_y1, y2(n) + h/2 * k1_y2);
+
+        % Calculate k3 values
+        k3_y1 = y2(n) + h/2 * k2_y2;
+        k3_y2 = f(t(n) + h/2, y1(n) + h/2 * k2_y1, y2(n) + h/2 * k2_y2);
+
+        % Calculate k4 values
+        k4_y1 = y2(n) + h * k3_y2;
+        k4_y2 = f(t(n) + h, y1(n) + h * k3_y1, y2(n) + h * k3_y2);
+
+        % Update y1 and y2 using weighted average of slopes
+        y1(n+1) = y1(n) + (h/6) * (k1_y1 + 2*k2_y1 + 2*k3_y1 + k4_y1);
+        y2(n+1) = y2(n) + (h/6) * (k1_y2 + 2*k2_y2 + 2*k3_y2 + k4_y2);
     end
 end
