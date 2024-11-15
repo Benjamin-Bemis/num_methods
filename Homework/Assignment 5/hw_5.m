@@ -93,7 +93,7 @@ for i = 1:length(funlist)
     grid on
     title(funlist_str(i))
     set(gcf,'Position',[0,0,1000,500])
-    print(gcf,[imagepath,'Q9_a',char(string(i)),'.png'],'-dpng');
+    print(gcf,[imagepath,'Q9_a_RK',char(string(i)),'.png'],'-dpng');
 
 
 
@@ -116,12 +116,106 @@ for i = 1:length(funlist)
     grid on
     title(funlist_str(i))
     set(gcf,'Position',[0,0,1000,500])
-    print(gcf,[imagepath,'Q9_b',char(string(i)),'.png'],'-dpng');
+    print(gcf,[imagepath,'Q9_b_RK',char(string(i)),'.png'],'-dpng');
 
 
 
 end
 
+
+A = [0 1; -g/l -c];
+
+lamda_9 = eig(A)
+
+%% Problem 12
+y0 = - 1e-5;
+f_12 = @(t, y) exp(y-t);
+dfdy = @(t, y) exp(y-t); 
+exact_12 = @(t) -log(exp(-y0) + exp(-t) -1);
+h = 0.2; 
+
+t0 = 0;
+tf = 20;
+
+[t_imp,y_imp] = implicitEuler(f_12, y0, t0, tf, h);
+[t_lin,y_lin] = limplicitEuler(f_12, dfdy, y0, t0, tf, h);
+
+figure
+plot(linspace(t0,tf,1e3),exact_12(linspace(t0,tf,1e3)),"LineWidth",2, 'DisplayName', "Exact", color=colors(1,:))
+hold on
+plot(t_imp, y_imp,"-.","LineWidth",2, 'DisplayName', "Implicit", color=colors(2,:))
+hold on 
+plot(t_lin, y_lin,"-.","LineWidth",2, 'DisplayName', "Linearized", color=colors(3,:))
+
+xlabel('$t$ (sec)')
+ylabel('$y$ ')
+legend(Location="southeast",Interpreter="latex")
+xlim([t0 tf])
+ylim([0 15])
+grid on
+title("Linearized Solution")
+set(gcf,'Position',[0,0,1000,500])
+print(gcf,[imagepath,'Q12_c',char(string(i)),'.png'],'-dpng');
+
+
+
+figure
+% plot(linspace(t0,tf,1e3),exact_12(linspace(t0,tf,1e3)),"LineWidth",2, 'DisplayName', "Exact", color=colors(1,:))
+% hold on
+loglog(exact_12(t0:h:tf) - y_imp,"-.","LineWidth",2, 'DisplayName', "Implicit", color=colors(2,:))
+hold on 
+loglog(exact_12(t0:h:tf) - y_lin,"-.","LineWidth",2, 'DisplayName', "Linearized", color=colors(3,:))
+
+xlabel('$Elements$')
+ylabel('$Error$ ')
+legend(Location="southeast",Interpreter="latex")
+% xlim([t0 tf])
+% ylim([0 15])
+grid on
+title("Linearized Error")
+set(gcf,'Position',[0,0,1000,500])
+print(gcf,[imagepath,'Q12_c_err',char(string(i)),'.png'],'-dpng');
+
+
+y0 = -1;
+[t_imp,y_imp_2] = implicitEuler(f_12, y0, t0, tf, h);
+[t_lin,y_lin_2] = limplicitEuler(f_12, dfdy, y0, t0, tf, h);
+
+
+figure
+plot(linspace(t0,tf,1e3),exact_12(linspace(t0,tf,1e3)),"LineWidth",2, 'DisplayName', "Exact", color=colors(1,:))
+hold on
+plot(t_imp, y_imp_2,":","LineWidth",2, 'DisplayName', "Implicit", color=colors(2,:))
+hold on 
+plot(t_lin, y_lin_2,"-.","LineWidth",2, 'DisplayName', "Linearized", color=colors(3,:))
+
+xlabel('$t$ (sec)')
+ylabel('$y$ ')
+legend(Location="southeast",Interpreter="latex")
+xlim([t0 tf])
+% ylim([0 15])
+grid on
+title("Linearized Solution")
+set(gcf,'Position',[0,0,1000,500])
+print(gcf,[imagepath,'Q12_d',char(string(i)),'.png'],'-dpng');
+
+
+figure
+% plot(linspace(t0,tf,1e3),exact_12(linspace(t0,tf,1e3)),"LineWidth",2, 'DisplayName', "Exact", color=colors(1,:))
+% hold on
+loglog(exact_12(t0:h:tf) - y_imp_2,":","LineWidth",2, 'DisplayName', "Implicit", color=colors(2,:))
+hold on 
+loglog(exact_12(t0:h:tf) - y_lin_2,"-.","LineWidth",2, 'DisplayName', "Linearized", color=colors(3,:))
+
+xlabel('$Elements$')
+ylabel('$Error$ ')
+legend(Location="southeast",Interpreter="latex")
+% xlim([t0 tf])
+% ylim([0 15])
+grid on
+title("Linearized Error")
+set(gcf,'Position',[0,0,1000,500])
+print(gcf,[imagepath,'Q12_d_err',char(string(i)),'.png'],'-dpng');
 
 
 %% Functions
@@ -178,6 +272,8 @@ function [t, y] = implicitEuler(f, y0, t0, tf, h)
 
     % Options for fsolve to increase accuracy and ensure convergence
     options = optimoptions('fsolve', 'Display', 'off');
+    % options = optimoptions('fmincon', 'Display', 'off');
+
 
     % Apply the implicit Euler method
     for n = 1:N-1
@@ -186,6 +282,41 @@ function [t, y] = implicitEuler(f, y0, t0, tf, h)
         
         % Use fsolve to solve for y(n+1)
         y(n+1) = fsolve(g, y(n), options);
+    end
+end
+
+function [t, y] = limplicitEuler(f, dfdy, y0, t0, tf, h)
+    % limplicitEuler solves a first-order ODE y' = f(t, y)
+    % using a linearized implicit Euler method.
+    %
+    % Inputs:
+    %   f    - Function handle for y' = f(t, y)
+    %   dfdy - Function handle for the partial derivative of f with respect to y
+    %   y0   - Initial condition for y
+    %   t0   - Initial time
+    %   tf   - Final time
+    %   h    - Step size
+    %
+    % Outputs:
+    %   t - Array of time steps
+    %   y - Array of solution values for y at each time step
+
+    % Define the time vector from t0 to tf with step size h
+    t = t0:h:tf;
+    N = length(t); % Number of time steps
+    y = zeros(1, N); % Preallocate y for the solution
+
+    % Set the initial condition
+    y(1) = y0;
+
+    % Apply the linearized implicit Euler method for each step
+    for n = 1:N-1
+        % Evaluate f and its derivative with respect to y at the current step
+        fn = f(t(n+1), y(n));
+        dfdyn = dfdy(t(n+1), y(n));
+
+        % Calculate the next value of y using the linearized formula
+        y(n+1) = y(n) + ((h * fn) / (1 - h * dfdyn));
     end
 end
 
