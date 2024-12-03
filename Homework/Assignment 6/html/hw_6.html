@@ -1,0 +1,1184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>hw_6</title>
+<meta name="generator" content="MATLAB 23.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2024-11-22">
+<meta name="DC.source" content="hw_6.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#2">Preperation of the workspace</a>
+</li>
+<li>
+<a href="#3">Setting data paths</a>
+</li>
+<li>
+<a href="#4">Problem 21 Chapter 4</a>
+</li>
+<li>
+<a href="#5">Problem 26 Chapter 4: part a</a>
+</li>
+<li>
+<a href="#6">Problem 26 Chapter 4: part b</a>
+</li>
+<li>
+<a href="#7">Problem 27 Chapter 4</a>
+</li>
+<li>
+<a href="#8">Functions</a>
+</li>
+</ul>
+</div>
+<pre class="codeinput">
+<span class="comment">%{
+</span><span class="comment">
+</span><span class="comment">@author: Benjamin Bemis Ph.D Student,
+</span><span class="comment">Advisor: Dr Juliano
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">Description:
+</span><span class="comment">AME 60614: Numerical Methods
+</span><span class="comment">Homework: 6
+</span><span class="comment">Due: 11/22/2024
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre>
+<h2 id="2">Preperation of the workspace</h2>
+<pre class="codeinput">clear <span class="string">all</span>
+clc
+close <span class="string">all</span>
+fontsize = 16;
+
+
+<span class="comment">% set(0,'DefaultFigureWindowStyle','default')</span>
+set(0,<span class="string">'DefaultTextInterpreter'</span>,<span class="string">'latex'</span>)
+set(0,<span class="string">'DefaultAxesFontSize'</span>,fontsize)
+set(0,<span class="string">'DefaultLegendFontSize'</span>,fontsize)
+colors  = [<span class="string">"#000000"</span>,<span class="string">"#1b9e77"</span>,<span class="string">"#d95f02"</span>,<span class="string">"#7570b3"</span>,<span class="string">"#0099FF"</span>]';
+</pre>
+<h2 id="3">Setting data paths</h2>
+<p>Make sure to update this for the machine that you are working on. (Maybe, This should now run on any machine without change. 7/24/24) Change the current folder to the folder of this m-file.</p>
+<pre class="codeinput">
+<span class="keyword">if</span>(~isdeployed)
+  cd(fileparts(matlab.desktop.editor.getActiveFilename));
+<span class="keyword">end</span>
+
+addpath(cd)
+<span class="comment">% cd ..; % Moving up a directory (from processing_code)</span>
+basepath = cd; <span class="comment">% Pulling the current directory</span>
+
+
+imagepath = [basepath filesep <span class="string">'images'</span> filesep];
+mkdir(imagepath);
+</pre>
+<pre class="codeoutput">Warning: Directory already exists. 
+</pre>
+<h2 id="4">Problem 21 Chapter 4</h2>
+<pre class="codeinput">tol = 1e-6;
+
+
+c1_0 = 0.9;
+c2_0 = 0.1;
+c3_0 = 0;
+
+k1 = 0.04;
+k2 = 10;
+k3 = 1.5e3;
+
+A = [-k1 k2*c3_0 k2*c2_0;
+    k1 -k2*c3_0-4*k3*c2_0 -k2*c2_0;
+    0 4*k3*c2_0 0];
+
+lambda = eig(A);
+
+
+stiffness = lambda(1)/lambda(3);
+
+<span class="comment">% Time span</span>
+tspan = [0 3000];
+
+<span class="comment">% Initial conditions</span>
+C0 = [0.9; 0.1; 0];
+
+stab = @(h) lambda(1)*h + (lambda(1)^2*h^2)/2 +(lambda(1)^3*h^3)/6+(lambda(1)^4*h^4)/24 ;
+[root,err] = Nraph(stab,0.01,tol)
+
+<span class="comment">% Define the system of ODEs</span>
+
+
+<span class="comment">% Solve using ode23s (stiff solver)</span>
+options = odeset(<span class="string">'RelTol'</span>, 1e-6, <span class="string">'AbsTol'</span>, 1e-9);
+tic
+[t_stiff, C_stiff] = ode23s(@reaction_rates, tspan, C0, options);
+toc
+
+tic
+[t_RK, C_RK] = RK4(@reaction_rates, C0, 0, 3000, 1e-3);
+toc
+
+tic
+[t_trap, C_trap] = trapezoidal_s(@reaction_rates, C0, 0, 3000, 1e-3);
+toc
+
+<span class="comment">% Plotting the results</span>
+figure;
+loglog(t_stiff, C_stiff(:,1), <span class="string">'-'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(1), <span class="string">'DisplayName'</span>, <span class="string">'C1'</span>);
+hold <span class="string">on</span>;
+loglog(t_stiff, C_stiff(:,2), <span class="string">'-'</span>,<span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(2), <span class="string">'DisplayName'</span>, <span class="string">'C2'</span>);
+hold <span class="string">on</span>
+loglog(t_stiff, C_stiff(:,3), <span class="string">'-'</span>,<span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(3), <span class="string">'DisplayName'</span>, <span class="string">'C3'</span>);
+xlabel(<span class="string">'Time (s)'</span>);
+ylabel(<span class="string">'Concentration'</span>);
+legend;
+xlim(tspan)
+title(<span class="string">'Concentration vs Time (ODE23)'</span>);
+grid <span class="string">on</span>;
+print(gcf,[imagepath,<span class="string">'Q23_ode23.png'</span>],<span class="string">'-dpng'</span>);
+
+
+
+figure;
+loglog(t_RK, C_RK(1,:), <span class="string">'-'</span>,<span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(1), <span class="string">'DisplayName'</span>, <span class="string">'C1'</span>);
+hold <span class="string">on</span>;
+loglog(t_RK, C_RK(2,:), <span class="string">'-'</span>,<span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(2), <span class="string">'DisplayName'</span>, <span class="string">'C2'</span>);
+hold <span class="string">on</span>
+loglog(t_RK, C_RK(3,:), <span class="string">'-'</span>,<span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(3), <span class="string">'DisplayName'</span>, <span class="string">'C3'</span>);
+xlabel(<span class="string">'Time (s)'</span>);
+ylabel(<span class="string">'Concentration'</span>);
+legend;
+title(<span class="string">'Concentration vs Time (RK4)'</span>);
+xlim(tspan)
+grid <span class="string">on</span>;
+print(gcf,[imagepath,<span class="string">'Q23_RK4.png'</span>],<span class="string">'-dpng'</span>);
+
+
+figure;
+loglog(t_trap, C_trap(1,:), <span class="string">'-'</span>,<span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(1), <span class="string">'DisplayName'</span>, <span class="string">'C1'</span>);
+hold <span class="string">on</span>;
+loglog(t_trap, C_trap(2,:), <span class="string">'-'</span>,<span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(2), <span class="string">'DisplayName'</span>, <span class="string">'C2'</span>);
+hold <span class="string">on</span>
+loglog(t_trap, C_trap(3,:), <span class="string">'-'</span>,<span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(3), <span class="string">'DisplayName'</span>, <span class="string">'C3'</span>);
+xlabel(<span class="string">'Time (s)'</span>);
+ylabel(<span class="string">'Concentration'</span>);
+legend;
+title(<span class="string">'Concentration vs Time (Trap)'</span>);
+xlim(tspan)
+grid <span class="string">on</span>;
+print(gcf,[imagepath,<span class="string">'Q23_trap.png'</span>],<span class="string">'-dpng'</span>);
+</pre>
+<img vspace="5" hspace="5" src="hw_6_01.png" alt=""> <img vspace="5" hspace="5" src="hw_6_02.png" alt=""> <img vspace="5" hspace="5" src="hw_6_03.png" alt=""> <h2 id="5">Problem 26 Chapter 4: part a</h2>
+<pre class="codeinput">tol = 1e-6;
+Ta = 0;
+T0 = 5;
+TL = 4;
+xL = 2;
+x_init = 0;
+xRange = [x_init xL];
+BC = [T0, TL];
+h = 0.001;
+
+
+alpha = @(x) -(x+3)/(x+1);
+beta = @(x) (x+3)/(x+1).^2;
+f = @(x) 2*(x+1) + 3*beta(x);
+f_temp = @(x,T,Tp) -alpha(x)*Tp -beta(x)*T +f(x);
+
+[x_a, y, yp] = shoot(f_temp,xRange,BC , h, -.01 ,tol);
+
+figure
+yyaxis <span class="string">left</span>
+plot(x_a,y,<span class="string">'LineWidth'</span>, 1.5)
+hold <span class="string">on</span>
+ylabel(<span class="string">'Temperature'</span>);
+
+yyaxis <span class="string">right</span>
+plot(x_a,yp,<span class="string">'LineWidth'</span>, 1.5)
+xlim(xRange)
+ylabel(<span class="string">'$\frac{dT}{dx}$'</span>);
+grid <span class="string">on</span>
+print(gcf,[imagepath,<span class="string">'Q26_shoot.png'</span>],<span class="string">'-dpng'</span>);
+
+<span class="comment">% % testing against ode 45</span>
+<span class="comment">% f_van = @(x,T,Tp) (1-T^2)*Tp-T;</span>
+<span class="comment">% [xt, yt, ytp] = shoot(f_van,[0 20],[2,2] , h, -.01 ,tol);</span>
+<span class="comment">%</span>
+<span class="comment">% figure</span>
+<span class="comment">% yyaxis left</span>
+<span class="comment">% plot(xt,yt)</span>
+<span class="comment">% hold on</span>
+<span class="comment">% yyaxis right</span>
+<span class="comment">% plot(xt,ytp)</span>
+
+
+<span class="comment">% part a) iii.</span>
+
+[x, ydf, ypdf] = shootdf(f_temp,xRange,[5,0] , h, -.01 ,tol);
+figure
+yyaxis <span class="string">left</span>
+plot(x,ydf, <span class="string">'LineWidth'</span>, 1.5)
+hold <span class="string">on</span>
+ylabel(<span class="string">'Temperature'</span>);
+yyaxis <span class="string">right</span>
+plot(x,ypdf, <span class="string">'LineWidth'</span>, 1.5)
+xlim(xRange)
+grid <span class="string">on</span>
+xlabel(<span class="string">'x'</span>);
+ylabel(<span class="string">'$\frac{dT}{dx}$'</span>);
+print(gcf,[imagepath,<span class="string">'Q26_shoot2.png'</span>],<span class="string">'-dpng'</span>);
+</pre>
+<pre class="codeoutput">    "counter = "    "1"
+
+
+err =
+
+    7.1917
+
+    "counter = "    "2"
+
+
+err =
+
+    2.3919
+
+
+err =
+
+   7.9492e-14
+
+
+ans =
+
+    0.3652
+
+    "counter = "    "1"
+
+
+err =
+
+    8.2856
+
+    "counter = "    "2"
+
+
+err =
+
+    5.9925
+
+
+err =
+
+   2.4919e-13
+
+
+ans =
+
+    0.2801
+
+</pre>
+<img vspace="5" hspace="5" src="hw_6_04.png" alt=""> <img vspace="5" hspace="5" src="hw_6_05.png" alt=""> <h2 id="6">Problem 26 Chapter 4: part b</h2>
+<pre class="codeinput">L = 2;
+N = 21;                <span class="comment">% Number of points</span>
+x = linspace(0, L, N); <span class="comment">% Discretized grid points</span>
+dx = L / (N-1);        <span class="comment">% Grid spacing</span>
+T_A = 5;               <span class="comment">% Boundary condition at x = 0</span>
+T_B = 4;               <span class="comment">% Boundary condition at x = L</span>
+
+<span class="comment">% Initialize A matrix and f vector</span>
+A = zeros(N, N);
+f_vec = zeros(N, 1);
+
+<span class="comment">% Set boundary conditions in f vector</span>
+f_vec(1) = T_A;
+f_vec(N) = T_B;
+
+<span class="comment">% Fill the A matrix and f vector</span>
+<span class="keyword">for</span> j = 2:N-1
+    xj = x(j);
+    a_j = alpha(xj);
+    b_j = beta(xj);
+    f_j = f(xj);
+
+    <span class="comment">% Coefficients for T_{j-1}, T_j, T_{j+1}</span>
+    A(j, j-1) = 1 / dx^2 - a_j / (2 * dx);
+    A(j, j)   = -2 / dx^2 + b_j;
+    A(j, j+1) = 1 / dx^2 + a_j / (2 * dx);
+
+    <span class="comment">% Right-hand side value</span>
+    f_vec(j) = f_j;
+<span class="keyword">end</span>
+
+<span class="comment">% Boundary conditions</span>
+A(1,1) = 1;
+A(N,N) = 1;
+
+<span class="comment">% Solve the system AT = f</span>
+T = A \ f_vec;
+
+<span class="comment">% Plotting the results</span>
+figure;
+plot(x_a,y,<span class="string">'k'</span>)
+hold <span class="string">on</span>
+plot(x, T, <span class="string">'o'</span>, <span class="string">'MarkerSize'</span>, 4, <span class="string">'LineWidth'</span>, 1.5, Color=colors(2));
+xlabel(<span class="string">'x'</span>);
+ylabel(<span class="string">'Temperature'</span>);
+<span class="comment">% title('Temperature Distribution using Finite Difference');</span>
+grid <span class="string">on</span>;
+legend(<span class="string">'Shooting'</span>,<span class="string">"Direct"</span>);
+print(gcf,[imagepath,<span class="string">'Q26_direct.png'</span>],<span class="string">'-dpng'</span>);
+</pre>
+<img vspace="5" hspace="5" src="hw_6_06.png" alt=""> <h2 id="7">Problem 27 Chapter 4</h2>
+<h2 id="8">Functions</h2>
+<pre class="codeinput">
+<span class="keyword">function</span> [root,err] = Nraph(f,initGuess,tol)
+<span class="comment">%Nraph solves for the root nearest the initial guess using the Newt-Raphson</span>
+<span class="comment">%method.</span>
+
+<span class="comment">% INPUTS:</span>
+<span class="comment">% f: is a function handle.</span>
+<span class="comment">% initGuess: is the inital guess for the root.</span>
+<span class="comment">% tol: desired tolerance.</span>
+
+<span class="comment">% OUTPUTS:</span>
+<span class="comment">% root: nearest root to initial guess.</span>
+<span class="comment">% err: error in the solution of the root.</span>
+
+x = initGuess;
+x(2) = initGuess+1;
+counter = 2;
+<span class="keyword">while</span> abs(f(x(end))) &gt;= tol
+
+x(counter+1) = x(counter) - f(x(counter)) * (x(counter)-x(counter-1))/(f(x(counter))-f(x(counter-1)));
+
+counter = counter+1;
+<span class="keyword">end</span>
+root = x(counter);
+err =  abs(f(root));
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [x, y1, y2] = shoot(f,xRange, BC, h, dx_guess ,tol)
+
+<span class="comment">% x = xRange(1):h:xRange(2);</span>
+
+dx = dx_guess;
+dx(2) = dx_guess+.5;
+
+<span class="comment">%</span>
+y1 = inf;
+<span class="comment">% [x, y1, y2] = RK4_2(f, BC(1), dx_guess, xRange(1), xRange(2), h);</span>
+
+counter = 1;
+<span class="keyword">while</span> abs(y1(end)- BC(2)) &gt;= tol
+
+    <span class="keyword">if</span> counter == 1
+        [x, y1, y2] = RK4_2(f, BC(1), dx_guess, xRange(1), xRange(2), h);
+        disp([<span class="string">"counter = "</span>, string(counter)])
+
+    <span class="keyword">elseif</span> counter == 2
+        [x, y1, y2] = RK4_2(f, BC(1), dx_guess+.5, xRange(1), xRange(2), h);
+        disp([<span class="string">"counter = "</span>, string(counter)])
+         dx(counter+1) = dx(counter) - (y1(end)-BC(2)) * (dx(counter) - dx(counter-1))/ (y1(end)-y_prev(counter));
+    <span class="keyword">elseif</span> counter &gt; 2
+        [x, y1, y2] = RK4_2(f, BC(1), dx(counter), xRange(1), xRange(2), h);
+        dx(counter+1) = dx(counter) - (y1(end)-BC(2)) * (dx(counter) - dx(counter-1))/ (y1(end)-y_prev(counter));
+
+    <span class="keyword">end</span>
+
+y_prev(counter+1) = y1(end);
+err = abs(y1(end)- BC(2))
+counter = counter+1;
+<span class="keyword">end</span>
+dx(end-1)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [x, y1, y2] = shootdf(f,xRange, BC, h, dx_guess ,tol)
+
+<span class="comment">% x = xRange(1):h:xRange(2);</span>
+
+dx = dx_guess;
+dx(2) = dx_guess+.5;
+
+<span class="comment">%</span>
+y2 = inf;
+<span class="comment">% [x, y1, y2] = RK4_2(f, BC(1), dx_guess, xRange(1), xRange(2), h);</span>
+
+counter = 1;
+<span class="keyword">while</span> abs(y2(end)- BC(2)) &gt;= tol
+
+    <span class="keyword">if</span> counter == 1
+        [x, y1, y2] = RK4_2(f, BC(1), dx_guess, xRange(1), xRange(2), h);
+        disp([<span class="string">"counter = "</span>, string(counter)])
+
+    <span class="keyword">elseif</span> counter == 2
+        [x, y1, y2] = RK4_2(f, BC(1), dx_guess+.5, xRange(1), xRange(2), h);
+        disp([<span class="string">"counter = "</span>, string(counter)])
+         dx(counter+1) = dx(counter) - (y2(end)-BC(2)) * (dx(counter) - dx(counter-1))/ (y2(end)-y_prev(counter));
+    <span class="keyword">elseif</span> counter &gt; 2
+        [x, y1, y2] = RK4_2(f, BC(1), dx(counter), xRange(1), xRange(2), h);
+        dx(counter+1) = dx(counter) - (y2(end)-BC(2)) * (dx(counter) - dx(counter-1))/ (y2(end)-y_prev(counter));
+
+    <span class="keyword">end</span>
+
+y_prev(counter+1) = y2(end);
+err = abs(y2(end)- BC(2))
+counter = counter+1;
+<span class="keyword">end</span>
+dx(end-1)
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> dCdt = reaction_rates(t, C)
+k1 = 0.04;
+k2 = 10;
+k3 = 1.5e3;
+
+<span class="comment">% Unpack concentrations</span>
+C1 = C(1);
+C2 = C(2);
+C3 = C(3);
+
+<span class="comment">% System of differential equations</span>
+dC1 = -k1 * C1 + k2 * C2 * C3;
+dC2 = k1 * C1 - k2 * C2 * C3 - 2 * k3 * C2^2;
+dC3 = 2 * k3 * C2^2;
+
+<span class="comment">% Return as a column vector</span>
+dCdt = [dC1; dC2; dC3];
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [t, y1, y2] = RK4_2(f, y0, v0, t0, tf, h)
+
+    <span class="comment">% RK4_2 works for single equation odes</span>
+
+    <span class="comment">% Inputs:</span>
+    <span class="comment">%   f  - Function handle for y'' = f(t, y, y')</span>
+    <span class="comment">%   y0 - Initial condition for y (y(t0) = y0)</span>
+    <span class="comment">%   v0 - Initial condition for y' (y'(t0) = v0)</span>
+    <span class="comment">%   t0 - Initial time</span>
+    <span class="comment">%   tf - Final time</span>
+    <span class="comment">%   h  - Step size</span>
+    <span class="comment">%</span>
+    <span class="comment">% Outputs:</span>
+    <span class="comment">%   t  - Array of time steps</span>
+    <span class="comment">%   y1 - Array of solution values for y at each time step</span>
+    <span class="comment">%   y2 - Array of solution values for y' at each time step</span>
+
+    <span class="comment">% Define the time vector from t0 to tf with step size h</span>
+    t = t0:h:tf;
+    N = length(t); <span class="comment">% Number of time steps</span>
+    y1 = zeros(1, N); <span class="comment">% Preallocate y1 for y</span>
+    y2 = zeros(1, N); <span class="comment">% Preallocate y2 for y'</span>
+
+    <span class="comment">% Set the initial conditions</span>
+    y1(1) = y0;
+    y2(1) = v0;
+
+    <span class="comment">% Apply the 4th-order Runge-Kutta method</span>
+    <span class="keyword">for</span> n = 1:N-1
+        <span class="comment">% Calculate k1 values</span>
+        k1_y1 = y2(n);
+        k1_y2 = f(t(n), y1(n), y2(n));
+
+        <span class="comment">% Calculate k2 values</span>
+        k2_y1 = y2(n) + h/2 * k1_y2;
+        k2_y2 = f(t(n) + h/2, y1(n) + h/2 * k1_y1, y2(n) + h/2 * k1_y2);
+
+        <span class="comment">% Calculate k3 values</span>
+        k3_y1 = y2(n) + h/2 * k2_y2;
+        k3_y2 = f(t(n) + h/2, y1(n) + h/2 * k2_y1, y2(n) + h/2 * k2_y2);
+
+        <span class="comment">% Calculate k4 values</span>
+        k4_y1 = y2(n) + h * k3_y2;
+        k4_y2 = f(t(n) + h, y1(n) + h * k3_y1, y2(n) + h * k3_y2);
+
+        <span class="comment">% Update y1 and y2 using weighted average of slopes</span>
+        y1(n+1) = y1(n) + (h/6) * (k1_y1 + 2*k2_y1 + 2*k3_y1 + k4_y1);
+        y2(n+1) = y2(n) + (h/6) * (k1_y2 + 2*k2_y2 + 2*k3_y2 + k4_y2);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [t, Y] = RK4(f, Y0, t0, tf, h)
+    <span class="comment">% RK4 - 4th-order Runge-Kutta method for systems of equations.</span>
+    <span class="comment">%</span>
+    <span class="comment">% Inputs:</span>
+    <span class="comment">%   f  - Function handle for the system of equations, f(t, Y)</span>
+    <span class="comment">%        Y is a column vector, and f should return a column vector.</span>
+    <span class="comment">%   Y0 - Initial conditions as a column vector (Nx1, where N is the number of equations)</span>
+    <span class="comment">%   t0 - Initial time</span>
+    <span class="comment">%   tf - Final time</span>
+    <span class="comment">%   h  - Step size</span>
+    <span class="comment">%</span>
+    <span class="comment">% Outputs:</span>
+    <span class="comment">%   t  - Array of time steps</span>
+    <span class="comment">%   Y  - Solution matrix (NxM, where N is the number of equations, M is the number of time steps)</span>
+
+    <span class="comment">% Define the time vector from t0 to tf with step size h</span>
+    t = t0:h:tf;
+    N = length(t);       <span class="comment">% Number of time steps</span>
+    num_eqns = length(Y0);  <span class="comment">% Number of equations in the system</span>
+
+    <span class="comment">% Preallocate the solution matrix Y</span>
+    Y = zeros(num_eqns, N);
+
+    <span class="comment">% Set the initial conditions</span>
+    Y(:, 1) = Y0;
+
+    <span class="comment">% Apply the 4th-order Runge-Kutta method for each time step</span>
+    <span class="keyword">for</span> n = 1:N-1
+        <span class="comment">% Calculate k1 values</span>
+        k1 = f(t(n), Y(:, n));
+
+        <span class="comment">% Calculate k2 values</span>
+        k2 = f(t(n) + h/2, Y(:, n) + h/2 * k1);
+
+        <span class="comment">% Calculate k3 values</span>
+        k3 = f(t(n) + h/2, Y(:, n) + h/2 * k2);
+
+        <span class="comment">% Calculate k4 values</span>
+        k4 = f(t(n) + h, Y(:, n) + h * k3);
+
+        <span class="comment">% Update Y using the weighted average of slopes</span>
+        Y(:, n+1) = Y(:, n) + (h/6) * (k1 + 2*k2 + 2*k3 + k4);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [t, Y] = trapezoidal_s(f, Y0, t0, tf, h)
+    <span class="comment">% trapezoidal_s - Linearized Trapezoidal method for systems of ODEs.</span>
+    <span class="comment">%</span>
+    <span class="comment">% Inputs:</span>
+    <span class="comment">%   f  - Function handle for the system of equations, f(t, Y)</span>
+    <span class="comment">%        Y is a column vector, and f should return a column vector.</span>
+    <span class="comment">%   Y0 - Initial conditions as a column vector (Nx1, where N is the number of equations)</span>
+    <span class="comment">%   t0 - Initial time</span>
+    <span class="comment">%   tf - Final time</span>
+    <span class="comment">%   h  - Step size</span>
+    <span class="comment">%</span>
+    <span class="comment">% Outputs:</span>
+    <span class="comment">%   t  - Array of time steps</span>
+    <span class="comment">%   Y  - Solution matrix (NxM, where N is the number of equations, M is the number of time steps)</span>
+
+    <span class="comment">% Define the time vector from t0 to tf with step size h</span>
+    t = t0:h:tf;
+    N = length(t);       <span class="comment">% Number of time steps</span>
+    num_eqns = length(Y0);  <span class="comment">% Number of equations in the system</span>
+
+    <span class="comment">% Preallocate the solution matrix Y</span>
+    Y = zeros(num_eqns, N);
+
+    <span class="comment">% Set the initial conditions</span>
+    Y(:, 1) = Y0;
+
+    <span class="comment">% Apply the Linearized Trapezoidal method for each time step</span>
+    <span class="keyword">for</span> n = 1:N-1
+        <span class="comment">% Predictor step (Euler's method)</span>
+        Y_star = Y(:, n) + h * f(t(n), Y(:, n));
+
+        <span class="comment">% Corrector step</span>
+        Y(:, n+1) = Y(:, n) + (h/2) * (f(t(n), Y(:, n)) + f(t(n+1), Y_star));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre>
+<pre class="codeoutput">
+root =
+
+    0.0046
+
+
+err =
+
+   8.8988e-08
+
+Elapsed time is 0.073169 seconds.
+Elapsed time is 2.258758 seconds.
+Elapsed time is 1.849003 seconds.
+</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%{
+
+@author: Benjamin Bemis Ph.D Student, 
+Advisor: Dr Juliano
+
+
+Description:
+AME 60614: Numerical Methods
+Homework: 6
+Due: 11/22/2024
+
+
+%}
+
+%% Preperation of the workspace
+clear all 
+clc 
+close all
+fontsize = 16;
+
+
+% set(0,'DefaultFigureWindowStyle','default')
+set(0,'DefaultTextInterpreter','latex')
+set(0,'DefaultAxesFontSize',fontsize)
+set(0,'DefaultLegendFontSize',fontsize)
+colors  = ["#000000","#1b9e77","#d95f02","#7570b3","#0099FF"]';
+
+%% Setting data paths
+% Make sure to update this for the machine that you are working on. (Maybe, This should now run on any machine without change. 7/24/24)
+% Change the current folder to the folder of this m-file.
+if(~isdeployed)
+  cd(fileparts(matlab.desktop.editor.getActiveFilename));
+end
+
+addpath(cd)
+% cd ..; % Moving up a directory (from processing_code)
+basepath = cd; % Pulling the current directory
+
+
+imagepath = [basepath filesep 'images' filesep]; 
+mkdir(imagepath);
+
+   
+
+%% Problem 21 Chapter 4
+tol = 1e-6;
+
+
+c1_0 = 0.9;
+c2_0 = 0.1;
+c3_0 = 0;
+
+k1 = 0.04;
+k2 = 10;
+k3 = 1.5e3;
+
+A = [-k1 k2*c3_0 k2*c2_0; 
+    k1 -k2*c3_0-4*k3*c2_0 -k2*c2_0; 
+    0 4*k3*c2_0 0];
+
+lambda = eig(A);
+
+
+stiffness = lambda(1)/lambda(3);
+
+% Time span
+tspan = [0 3000];
+
+% Initial conditions
+C0 = [0.9; 0.1; 0];
+
+stab = @(h) lambda(1)*h + (lambda(1)^2*h^2)/2 +(lambda(1)^3*h^3)/6+(lambda(1)^4*h^4)/24 ;
+[root,err] = Nraph(stab,0.01,tol)
+
+% Define the system of ODEs
+
+
+% Solve using ode23s (stiff solver)
+options = odeset('RelTol', 1e-6, 'AbsTol', 1e-9);
+tic
+[t_stiff, C_stiff] = ode23s(@reaction_rates, tspan, C0, options);
+toc
+
+tic
+[t_RK, C_RK] = RK4(@reaction_rates, C0, 0, 3000, 1e-3);
+toc
+
+tic
+[t_trap, C_trap] = trapezoidal_s(@reaction_rates, C0, 0, 3000, 1e-3);
+toc
+
+% Plotting the results
+figure;
+loglog(t_stiff, C_stiff(:,1), '-', 'LineWidth', 1.5, 'Color', colors(1), 'DisplayName', 'C1');
+hold on;
+loglog(t_stiff, C_stiff(:,2), '-','LineWidth', 1.5, 'Color', colors(2), 'DisplayName', 'C2');
+hold on 
+loglog(t_stiff, C_stiff(:,3), '-','LineWidth', 1.5, 'Color', colors(3), 'DisplayName', 'C3');
+xlabel('Time (s)');
+ylabel('Concentration');
+legend;
+xlim(tspan)
+title('Concentration vs Time (ODE23)');
+grid on;
+print(gcf,[imagepath,'Q23_ode23.png'],'-dpng');
+
+
+
+figure;
+loglog(t_RK, C_RK(1,:), '-','LineWidth', 1.5, 'Color', colors(1), 'DisplayName', 'C1');
+hold on;
+loglog(t_RK, C_RK(2,:), '-','LineWidth', 1.5, 'Color', colors(2), 'DisplayName', 'C2');
+hold on
+loglog(t_RK, C_RK(3,:), '-','LineWidth', 1.5, 'Color', colors(3), 'DisplayName', 'C3');
+xlabel('Time (s)');
+ylabel('Concentration');
+legend;
+title('Concentration vs Time (RK4)');
+xlim(tspan)
+grid on;
+print(gcf,[imagepath,'Q23_RK4.png'],'-dpng');
+
+
+figure;
+loglog(t_trap, C_trap(1,:), '-','LineWidth', 1.5, 'Color', colors(1), 'DisplayName', 'C1');
+hold on;
+loglog(t_trap, C_trap(2,:), '-','LineWidth', 1.5, 'Color', colors(2), 'DisplayName', 'C2');
+hold on
+loglog(t_trap, C_trap(3,:), '-','LineWidth', 1.5, 'Color', colors(3), 'DisplayName', 'C3');
+xlabel('Time (s)');
+ylabel('Concentration');
+legend;
+title('Concentration vs Time (Trap)');
+xlim(tspan)
+grid on;
+print(gcf,[imagepath,'Q23_trap.png'],'-dpng');
+
+
+%% Problem 26 Chapter 4: part a
+tol = 1e-6;
+Ta = 0;
+T0 = 5;
+TL = 4;
+xL = 2;
+x_init = 0;
+xRange = [x_init xL];
+BC = [T0, TL];
+h = 0.001;
+
+
+alpha = @(x) -(x+3)/(x+1);
+beta = @(x) (x+3)/(x+1).^2;
+f = @(x) 2*(x+1) + 3*beta(x);
+f_temp = @(x,T,Tp) -alpha(x)*Tp -beta(x)*T +f(x);
+
+[x_a, y, yp] = shoot(f_temp,xRange,BC , h, -.01 ,tol);
+
+figure
+yyaxis left
+plot(x_a,y,'LineWidth', 1.5)
+hold on 
+ylabel('Temperature');
+
+yyaxis right
+plot(x_a,yp,'LineWidth', 1.5)
+xlim(xRange)
+ylabel('$\frac{dT}{dx}$');
+grid on 
+print(gcf,[imagepath,'Q26_shoot.png'],'-dpng');
+
+% % testing against ode 45
+% f_van = @(x,T,Tp) (1-T^2)*Tp-T;
+% [xt, yt, ytp] = shoot(f_van,[0 20],[2,2] , h, -.01 ,tol);
+% 
+% figure
+% yyaxis left
+% plot(xt,yt)
+% hold on 
+% yyaxis right
+% plot(xt,ytp)
+
+
+% part a) iii.
+
+[x, ydf, ypdf] = shootdf(f_temp,xRange,[5,0] , h, -.01 ,tol);
+figure
+yyaxis left
+plot(x,ydf, 'LineWidth', 1.5)
+hold on 
+ylabel('Temperature');
+yyaxis right
+plot(x,ypdf, 'LineWidth', 1.5)
+xlim(xRange)
+grid on 
+xlabel('x');
+ylabel('$\frac{dT}{dx}$');
+print(gcf,[imagepath,'Q26_shoot2.png'],'-dpng');
+
+
+%% Problem 26 Chapter 4: part b
+L = 2;
+N = 21;                % Number of points
+x = linspace(0, L, N); % Discretized grid points
+dx = L / (N-1);        % Grid spacing
+T_A = 5;               % Boundary condition at x = 0
+T_B = 4;               % Boundary condition at x = L
+
+% Initialize A matrix and f vector
+A = zeros(N, N);
+f_vec = zeros(N, 1);
+
+% Set boundary conditions in f vector
+f_vec(1) = T_A;
+f_vec(N) = T_B;
+
+% Fill the A matrix and f vector
+for j = 2:N-1
+    xj = x(j);
+    a_j = alpha(xj);
+    b_j = beta(xj);
+    f_j = f(xj);
+
+    % Coefficients for T_{j-1}, T_j, T_{j+1}
+    A(j, j-1) = 1 / dx^2 - a_j / (2 * dx);
+    A(j, j)   = -2 / dx^2 + b_j;
+    A(j, j+1) = 1 / dx^2 + a_j / (2 * dx);
+
+    % Right-hand side value
+    f_vec(j) = f_j;
+end
+
+% Boundary conditions
+A(1,1) = 1;
+A(N,N) = 1;
+
+% Solve the system AT = f
+T = A \ f_vec;
+
+% Plotting the results
+figure;
+plot(x_a,y,'k')
+hold on
+plot(x, T, 'o', 'MarkerSize', 4, 'LineWidth', 1.5, Color=colors(2));
+xlabel('x');
+ylabel('Temperature');
+% title('Temperature Distribution using Finite Difference');
+grid on;
+legend('Shooting',"Direct");
+print(gcf,[imagepath,'Q26_direct.png'],'-dpng');
+
+
+%% Problem 27 Chapter 4
+
+
+
+%% Functions
+
+function [root,err] = Nraph(f,initGuess,tol)
+%Nraph solves for the root nearest the initial guess using the Newt-Raphson
+%method.
+
+% INPUTS:
+% f: is a function handle. 
+% initGuess: is the inital guess for the root.
+% tol: desired tolerance.
+
+% OUTPUTS:
+% root: nearest root to initial guess.
+% err: error in the solution of the root.
+
+x = initGuess;
+x(2) = initGuess+1;
+counter = 2;
+while abs(f(x(end))) >= tol
+
+x(counter+1) = x(counter) - f(x(counter)) * (x(counter)-x(counter-1))/(f(x(counter))-f(x(counter-1)));
+
+counter = counter+1;
+end
+root = x(counter);
+err =  abs(f(root));
+
+end
+
+function [x, y1, y2] = shoot(f,xRange, BC, h, dx_guess ,tol)
+
+% x = xRange(1):h:xRange(2);
+
+dx = dx_guess;
+dx(2) = dx_guess+.5;
+
+% 
+y1 = inf;
+% [x, y1, y2] = RK4_2(f, BC(1), dx_guess, xRange(1), xRange(2), h);
+
+counter = 1;
+while abs(y1(end)- BC(2)) >= tol
+
+    if counter == 1
+        [x, y1, y2] = RK4_2(f, BC(1), dx_guess, xRange(1), xRange(2), h);
+        disp(["counter = ", string(counter)])
+
+    elseif counter == 2
+        [x, y1, y2] = RK4_2(f, BC(1), dx_guess+.5, xRange(1), xRange(2), h);
+        disp(["counter = ", string(counter)])
+         dx(counter+1) = dx(counter) - (y1(end)-BC(2)) * (dx(counter) - dx(counter-1))/ (y1(end)-y_prev(counter));
+    elseif counter > 2
+        [x, y1, y2] = RK4_2(f, BC(1), dx(counter), xRange(1), xRange(2), h);
+        dx(counter+1) = dx(counter) - (y1(end)-BC(2)) * (dx(counter) - dx(counter-1))/ (y1(end)-y_prev(counter));
+
+    end
+
+y_prev(counter+1) = y1(end);
+err = abs(y1(end)- BC(2))
+counter = counter+1;
+end
+dx(end-1)
+end
+
+function [x, y1, y2] = shootdf(f,xRange, BC, h, dx_guess ,tol)
+
+% x = xRange(1):h:xRange(2);
+
+dx = dx_guess;
+dx(2) = dx_guess+.5;
+
+% 
+y2 = inf;
+% [x, y1, y2] = RK4_2(f, BC(1), dx_guess, xRange(1), xRange(2), h);
+
+counter = 1;
+while abs(y2(end)- BC(2)) >= tol
+
+    if counter == 1
+        [x, y1, y2] = RK4_2(f, BC(1), dx_guess, xRange(1), xRange(2), h);
+        disp(["counter = ", string(counter)])
+
+    elseif counter == 2
+        [x, y1, y2] = RK4_2(f, BC(1), dx_guess+.5, xRange(1), xRange(2), h);
+        disp(["counter = ", string(counter)])
+         dx(counter+1) = dx(counter) - (y2(end)-BC(2)) * (dx(counter) - dx(counter-1))/ (y2(end)-y_prev(counter));
+    elseif counter > 2
+        [x, y1, y2] = RK4_2(f, BC(1), dx(counter), xRange(1), xRange(2), h);
+        dx(counter+1) = dx(counter) - (y2(end)-BC(2)) * (dx(counter) - dx(counter-1))/ (y2(end)-y_prev(counter));
+
+    end
+
+y_prev(counter+1) = y2(end);
+err = abs(y2(end)- BC(2))
+counter = counter+1;
+end
+dx(end-1)
+end
+
+function dCdt = reaction_rates(t, C)
+k1 = 0.04;
+k2 = 10;
+k3 = 1.5e3;
+
+% Unpack concentrations
+C1 = C(1);
+C2 = C(2);
+C3 = C(3);
+
+% System of differential equations
+dC1 = -k1 * C1 + k2 * C2 * C3;
+dC2 = k1 * C1 - k2 * C2 * C3 - 2 * k3 * C2^2;
+dC3 = 2 * k3 * C2^2;
+
+% Return as a column vector
+dCdt = [dC1; dC2; dC3];
+end
+
+function [t, y1, y2] = RK4_2(f, y0, v0, t0, tf, h)
+
+    % RK4_2 works for single equation odes
+ 
+    % Inputs:
+    %   f  - Function handle for y'' = f(t, y, y')
+    %   y0 - Initial condition for y (y(t0) = y0)
+    %   v0 - Initial condition for y' (y'(t0) = v0)
+    %   t0 - Initial time
+    %   tf - Final time
+    %   h  - Step size
+    %
+    % Outputs:
+    %   t  - Array of time steps
+    %   y1 - Array of solution values for y at each time step
+    %   y2 - Array of solution values for y' at each time step
+
+    % Define the time vector from t0 to tf with step size h
+    t = t0:h:tf;
+    N = length(t); % Number of time steps
+    y1 = zeros(1, N); % Preallocate y1 for y
+    y2 = zeros(1, N); % Preallocate y2 for y'
+
+    % Set the initial conditions
+    y1(1) = y0;
+    y2(1) = v0;
+
+    % Apply the 4th-order Runge-Kutta method
+    for n = 1:N-1
+        % Calculate k1 values
+        k1_y1 = y2(n);
+        k1_y2 = f(t(n), y1(n), y2(n));
+
+        % Calculate k2 values
+        k2_y1 = y2(n) + h/2 * k1_y2;
+        k2_y2 = f(t(n) + h/2, y1(n) + h/2 * k1_y1, y2(n) + h/2 * k1_y2);
+
+        % Calculate k3 values
+        k3_y1 = y2(n) + h/2 * k2_y2;
+        k3_y2 = f(t(n) + h/2, y1(n) + h/2 * k2_y1, y2(n) + h/2 * k2_y2);
+
+        % Calculate k4 values
+        k4_y1 = y2(n) + h * k3_y2;
+        k4_y2 = f(t(n) + h, y1(n) + h * k3_y1, y2(n) + h * k3_y2);
+
+        % Update y1 and y2 using weighted average of slopes
+        y1(n+1) = y1(n) + (h/6) * (k1_y1 + 2*k2_y1 + 2*k3_y1 + k4_y1);
+        y2(n+1) = y2(n) + (h/6) * (k1_y2 + 2*k2_y2 + 2*k3_y2 + k4_y2);
+    end
+end
+
+function [t, Y] = RK4(f, Y0, t0, tf, h)
+    % RK4 - 4th-order Runge-Kutta method for systems of equations.
+    %
+    % Inputs:
+    %   f  - Function handle for the system of equations, f(t, Y)
+    %        Y is a column vector, and f should return a column vector.
+    %   Y0 - Initial conditions as a column vector (Nx1, where N is the number of equations)
+    %   t0 - Initial time
+    %   tf - Final time
+    %   h  - Step size
+    %
+    % Outputs:
+    %   t  - Array of time steps
+    %   Y  - Solution matrix (NxM, where N is the number of equations, M is the number of time steps)
+
+    % Define the time vector from t0 to tf with step size h
+    t = t0:h:tf;
+    N = length(t);       % Number of time steps
+    num_eqns = length(Y0);  % Number of equations in the system
+
+    % Preallocate the solution matrix Y
+    Y = zeros(num_eqns, N);
+    
+    % Set the initial conditions
+    Y(:, 1) = Y0;
+
+    % Apply the 4th-order Runge-Kutta method for each time step
+    for n = 1:N-1
+        % Calculate k1 values
+        k1 = f(t(n), Y(:, n));
+
+        % Calculate k2 values
+        k2 = f(t(n) + h/2, Y(:, n) + h/2 * k1);
+
+        % Calculate k3 values
+        k3 = f(t(n) + h/2, Y(:, n) + h/2 * k2);
+
+        % Calculate k4 values
+        k4 = f(t(n) + h, Y(:, n) + h * k3);
+
+        % Update Y using the weighted average of slopes
+        Y(:, n+1) = Y(:, n) + (h/6) * (k1 + 2*k2 + 2*k3 + k4);
+    end
+end
+
+function [t, Y] = trapezoidal_s(f, Y0, t0, tf, h)
+    % trapezoidal_s - Linearized Trapezoidal method for systems of ODEs.
+    %
+    % Inputs:
+    %   f  - Function handle for the system of equations, f(t, Y)
+    %        Y is a column vector, and f should return a column vector.
+    %   Y0 - Initial conditions as a column vector (Nx1, where N is the number of equations)
+    %   t0 - Initial time
+    %   tf - Final time
+    %   h  - Step size
+    %
+    % Outputs:
+    %   t  - Array of time steps
+    %   Y  - Solution matrix (NxM, where N is the number of equations, M is the number of time steps)
+
+    % Define the time vector from t0 to tf with step size h
+    t = t0:h:tf;
+    N = length(t);       % Number of time steps
+    num_eqns = length(Y0);  % Number of equations in the system
+
+    % Preallocate the solution matrix Y
+    Y = zeros(num_eqns, N);
+    
+    % Set the initial conditions
+    Y(:, 1) = Y0;
+
+    % Apply the Linearized Trapezoidal method for each time step
+    for n = 1:N-1
+        % Predictor step (Euler's method)
+        Y_star = Y(:, n) + h * f(t(n), Y(:, n));
+        
+        % Corrector step
+        Y(:, n+1) = Y(:, n) + (h/2) * (f(t(n), Y(:, n)) + f(t(n+1), Y_star));
+    end
+end
+
+##### SOURCE END #####
+-->
+</body>
+</html>

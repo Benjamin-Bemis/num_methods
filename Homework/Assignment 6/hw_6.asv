@@ -44,22 +44,15 @@ mkdir(imagepath);
 
 %% Problem 21 Chapter 4
 tol = 1e-6;
-k1 = 0.04;
-k2 = 10;
-k3 = 1.5e3;
+
 
 c1_0 = 0.9;
 c2_0 = 0.1;
 c3_0 = 0;
 
-
-
-dC1 = @(c1,c2,c3) -k1*c1 +k2*c2*c3;
-dC2 = @(c1,c2,c3) k1*c1 -k2*c2*c3 - 2*k3*c2^2;
-dC3 = @(c1,c2,c3) 2*k3*c2^2;
-
-dCdt = @(c1,c2,c3) [dC1; dC2; dC3]
-% Sum of c1,c2,c3 is equal to 1
+k1 = 0.04;
+k2 = 10;
+k3 = 1.5e3;
 
 A = [-k1 k2*c3_0 k2*c2_0; 
     k1 -k2*c3_0-4*k3*c2_0 -k2*c2_0; 
@@ -79,28 +72,68 @@ C0 = [0.9; 0.1; 0];
 stab = @(h) lambda(1)*h + (lambda(1)^2*h^2)/2 +(lambda(1)^3*h^3)/6+(lambda(1)^4*h^4)/24 ;
 [root,err] = Nraph(stab,0.01,tol)
 
+% Define the system of ODEs
 
 
 % Solve using ode23s (stiff solver)
-opt = odeset('RelTol', 1e-6, 'AbsTol', 1e-9);
-[t_stiff, C_stiff] = ode23s(dCdt, tspan, C0, opt);
+options = odeset('RelTol', 1e-6, 'AbsTol', 1e-9);
+tic
+[t_stiff, C_stiff] = ode23s(@reaction_rates, tspan, C0, options);
+toc
 
-% Solve using custom Fourth-order Runge-Kutta (implement separately if needed)
+tic
+[t_RK, C_RK] = RK4(@reaction_rates, C0, 0, 3000, 1e-3);
+toc
 
-% Plotting results
+tic
+[t_trap, C_trap] = trapezoidal_s(@reaction_rates, C0, 0, 3000, 1e-3);
+toc
+
+% Plotting the results
 figure;
-loglog(t_stiff, C_stiff(:,1), '-r', 'DisplayName', 'C1 (stiff)');
+loglog(t_stiff, C_stiff(:,1), '-', 'LineWidth', 1.5, 'Color', colors(1), 'DisplayName', 'C1');
 hold on;
-loglog(t_stiff, C_stiff(:,2), '-g', 'DisplayName', 'C2 (stiff)');
-loglog(t_stiff, C_stiff(:,3), '-b', 'DisplayName', 'C3 (stiff)');
-xlabel('Time');
+loglog(t_stiff, C_stiff(:,2), '-','LineWidth', 1.5, 'Color', colors(2), 'DisplayName', 'C2');
+hold on 
+loglog(t_stiff, C_stiff(:,3), '-','LineWidth', 1.5, 'Color', colors(3), 'DisplayName', 'C3');
+xlabel('Time (s)');
 ylabel('Concentration');
 legend;
-title('Concentration vs Time (Log-Log Plot)');
+xlim(tspan)
+title('Concentration vs Time (ODE23)');
 grid on;
+print(gcf,[imagepath,'Q23_ode23.png'],'-dpng');
 
 
 
+figure;
+loglog(t_RK, C_RK(1,:), '-','LineWidth', 1.5, 'Color', colors(1), 'DisplayName', 'C1');
+hold on;
+loglog(t_RK, C_RK(2,:), '-','LineWidth', 1.5, 'Color', colors(2), 'DisplayName', 'C2');
+hold on
+loglog(t_RK, C_RK(3,:), '-','LineWidth', 1.5, 'Color', colors(3), 'DisplayName', 'C3');
+xlabel('Time (s)');
+ylabel('Concentration');
+legend;
+title('Concentration vs Time (RK4)');
+xlim(tspan)
+grid on;
+print(gcf,[imagepath,'Q23_RK4.png'],'-dpng');
+
+
+figure;
+loglog(t_trap, C_trap(1,:), '-','LineWidth', 1.5, 'Color', colors(1), 'DisplayName', 'C1');
+hold on;
+loglog(t_trap, C_trap(2,:), '-','LineWidth', 1.5, 'Color', colors(2), 'DisplayName', 'C2');
+hold on
+loglog(t_trap, C_trap(3,:), '-','LineWidth', 1.5, 'Color', colors(3), 'DisplayName', 'C3');
+xlabel('Time (s)');
+ylabel('Concentration');
+legend;
+title('Concentration vs Time (RK4)');
+xlim(tspan)
+grid on;
+print(gcf,[imagepath,'Q23_trap.png'],'-dpng');
 
 
 %% Problem 26 Chapter 4: part a
@@ -133,17 +166,18 @@ plot(x_a,yp,'LineWidth', 1.5)
 xlim(xRange)
 ylabel('$\frac{dT}{dx}$');
 grid on 
+print(gcf,[imagepath,'Q26_shoot.png'],'-dpng');
 
 % % testing against ode 45
-f_van = @(x,T,Tp) (1-T^2)*Tp-T;
-[xt, yt, ytp] = shoot(f_van,[0 20],[2,2] , h, -.01 ,tol);
-
-figure
-yyaxis left
-plot(xt,yt)
-hold on 
-yyaxis right
-plot(xt,ytp)
+% f_van = @(x,T,Tp) (1-T^2)*Tp-T;
+% [xt, yt, ytp] = shoot(f_van,[0 20],[2,2] , h, -.01 ,tol);
+% 
+% figure
+% yyaxis left
+% plot(xt,yt)
+% hold on 
+% yyaxis right
+% plot(xt,ytp)
 
 
 % part a) iii.
@@ -160,6 +194,7 @@ xlim(xRange)
 grid on 
 xlabel('x');
 ylabel('$\frac{dT}{dx}$');
+print(gcf,[imagepath,'Q26_shoot2.png'],'-dpng');
 
 
 %% Problem 26 Chapter 4: part b
@@ -211,6 +246,8 @@ ylabel('Temperature');
 % title('Temperature Distribution using Finite Difference');
 grid on;
 legend('Shooting',"Direct");
+print(gcf,[imagepath,'Q26_direct.png'],'-dpng');
+
 
 %% Problem 27 Chapter 4
 
@@ -315,187 +352,28 @@ end
 dx(end-1)
 end
 
-function [t, y1, y2] = explicitEuler_2(f, y0, v0, t0, tf, h)
-    % A general second-order ODE y'' = f(t, y, y') 
-    % using the explicit Euler method.
-    %
-    % Inputs:
-    %   f  - Function handle for y'' = f(t, y, y')
-    %   y0 - Initial condition for y (position)
-    %   v0 - Initial condition for y' (velocity)
-    %   t0 - Initial time
-    %   tf - Final time
-    %   h  - Step size
-    %
-    % Outputs:
-    %   t  - Array of time steps
-    %   y1 - Array of solution values for y at each time step
-    %   y2 - Array of solution values for y' at each time step
+function dCdt = reaction_rates(t, C)
+k1 = 0.04;
+k2 = 10;
+k3 = 1.5e3;
 
-    % Define the time vector from t0 to tf with step size h
-    t = t0:h:tf;
-    N = length(t); % Number of time steps
-    y1 = zeros(1, N); % Preallocate y1 for y (position)
-    y2 = zeros(1, N); % Preallocate y2 for y' (velocity)
+% Unpack concentrations
+C1 = C(1);
+C2 = C(2);
+C3 = C(3);
 
-    % Set the initial conditions
-    y1(1) = y0;
-    y2(1) = v0;
+% System of differential equations
+dC1 = -k1 * C1 + k2 * C2 * C3;
+dC2 = k1 * C1 - k2 * C2 * C3 - 2 * k3 * C2^2;
+dC3 = 2 * k3 * C2^2;
 
-    % Apply the explicit Euler method
-    for n = 1:N-1
-        % Update y1 and y2
-        y1(n+1) = y1(n) + h * y2(n);
-        y2(n+1) = y2(n) + h * f(t(n), y1(n), y2(n));
-    end
-end
-
-function [t, y1, y2] = implicitEuler_2(f, y0, v0, t0, tf, h)
-    % General second-order ODE y'' = f(t, y, y')
-    % using the implicit Euler method.
-    %
-    % Inputs:
-    %   f  - Function handle for y'' = f(t, y, y')
-    %   y0 - Initial condition for y (position)
-    %   v0 - Initial condition for y' (velocity)
-    %   t0 - Initial time
-    %   tf - Final time
-    %   h  - Step size
-    %
-    % Outputs:
-    %   t  - Array of time steps
-    %   y1 - Array of solution values for y at each time step
-    %   y2 - Array of solution values for y' at each time step
-
-    % Define the time vector from t0 to tf with step size h
-    t = t0:h:tf;
-    N = length(t); % Number of time steps
-    y1 = zeros(1, N); % Preallocate y1 for y (position)
-    y2 = zeros(1, N); % Preallocate y2 for y' (velocity)
-
-    % Set the initial conditions
-    y1(1) = y0;
-    y2(1) = v0;
-
-    % Options for fsolve
-    options = optimoptions('fsolve', 'Display', 'off');
-
-    % Apply the implicit Euler method
-    for n = 1:N-1
-        % Define the system of equations to solve at each step
-        func = @(Y_next) [
-            Y_next(1) - y1(n) - h * Y_next(2);          % y1^{n+1} = y1^n + h * y2^{n+1}
-            Y_next(2) - y2(n) - h * f(t(n+1), Y_next(1), Y_next(2))  % y2^{n+1} = y2^n + h * f(t^{n+1}, y1^{n+1}, y2^{n+1})
-        ];
-
-        % Initial guess for fsolve
-        Y_guess = [y1(n), y2(n)];
-
-        % Solve for Y_next = [y1^{n+1}; y2^{n+1}] using fsolve
-        Y_next = fsolve(func, Y_guess, options);
-
-        % Update y1 and y2 with the solved values
-        y1(n+1) = Y_next(1);
-        y2(n+1) = Y_next(2);
-    end
-end
-
-function [t, y1, y2] = trapMethod_2(f, y0, v0, t0, tf, h)
-    % General second-order ODE y'' = f(t, y, y')
-    % using the trapezoidal (implicit) method.
-    %
-    % Inputs:
-    %   f  - Function handle for y'' = f(t, y, y')
-    %   y0 - Initial condition for y (position)
-    %   v0 - Initial condition for y' (velocity)
-    %   t0 - Initial time
-    %   tf - Final time
-    %   h  - Step size
-    %
-    % Outputs:
-    %   t  - Array of time steps
-    %   y1 - Array of solution values for y at each time step
-    %   y2 - Array of solution values for y' at each time step
-
-    % Define the time vector from t0 to tf with step size h
-    t = t0:h:tf;
-    N = length(t); % Number of time steps
-    y1 = zeros(1, N); % Preallocate y1 for y (position)
-    y2 = zeros(1, N); % Preallocate y2 for y' (velocity)
-
-    % Set the initial conditions
-    y1(1) = y0;
-    y2(1) = v0;
-
-    % Options for fsolve
-    options = optimoptions('fsolve', 'Display', 'off');
-
-    % Apply the trapezoidal method
-    for n = 1:N-1
-        % Define the system of equations to solve at each step
-        func = @(Y_next) [
-            Y_next(1) - y1(n) - h/2 * (y2(n) + Y_next(2));  % y1^{n+1} = y1^n + h/2 * (y2^n + y2^{n+1})
-            Y_next(2) - y2(n) - h/2 * (f(t(n), y1(n), y2(n)) + f(t(n+1), Y_next(1), Y_next(2))) % y2^{n+1} = y2^n + h/2 * (f_n + f_{n+1})
-        ];
-
-        % Initial guess for fsolve
-        Y_guess = [y1(n), y2(n)];
-
-        % Solve for Y_next = [y1^{n+1}; y2^{n+1}] using fsolve
-        Y_next = fsolve(func, Y_guess, options);
-
-        % Update y1 and y2 with the solved values
-        y1(n+1) = Y_next(1);
-        y2(n+1) = Y_next(2);
-    end
-end
-
-function [t, y1, y2] = RK2_2(f, y0, v0, t0, tf, h)
-    % General second-order ODE y'' = f(t, y, y')
-    % using the second-order Runge-Kutta method.
-    %
-    % Inputs:
-    %   f  - Function handle for y'' = f(t, y, y')
-    %   y0 - Initial condition for y (position)
-    %   v0 - Initial condition for y' (velocity)
-    %   t0 - Initial time
-    %   tf - Final time
-    %   h  - Step size
-    %
-    % Outputs:
-    %   t  - Array of time steps
-    %   y1 - Array of solution values for y at each time step
-    %   y2 - Array of solution values for y' at each time step
-
-    % Define the time vector from t0 to tf with step size h
-    t = t0:h:tf;
-    N = length(t); % Number of time steps
-    y1 = zeros(1, N); % Preallocate y1 for y (position)
-    y2 = zeros(1, N); % Preallocate y2 for y' (velocity)
-
-    % Set the initial conditions
-    y1(1) = y0;
-    y2(1) = v0;
-
-    % Apply the second-order Runge-Kutta method
-    for n = 1:N-1
-        % Calculate k1 values
-        k1y1 = h * y2(n);
-        k1y2 = h * f(t(n), y1(n), y2(n));
-
-        % Calculate k2 values
-        k2y1 = h * (y2(n) + k1y2 / 2);
-        k2y2 = h * f(t(n) + h / 2, y1(n) + k1y1 / 2, y2(n) + k1y2 / 2);
-
-        % Update y1 and y2
-        y1(n+1) = y1(n) + k2y1;
-        y2(n+1) = y2(n) + k2y2;
-    end
+% Return as a column vector
+dCdt = [dC1; dC2; dC3];
 end
 
 function [t, y1, y2] = RK4_2(f, y0, v0, t0, tf, h)
 
-    % RK4_2
+    % RK4_2 works for single equation odes
  
     % Inputs:
     %   f  - Function handle for y'' = f(t, y, y')
@@ -543,17 +421,84 @@ function [t, y1, y2] = RK4_2(f, y0, v0, t0, tf, h)
         y2(n+1) = y2(n) + (h/6) * (k1_y2 + 2*k2_y2 + 2*k3_y2 + k4_y2);
     end
 end
-function dCdt = reaction_rates(t, C)
-    % C = [C1; C2; C3]
-    C1 = C(1);
-    C2 = C(2);
-    C3 = C(3);
+
+function [t, Y] = RK4(f, Y0, t0, tf, h)
+    % RK4 - 4th-order Runge-Kutta method for systems of equations.
+    %
+    % Inputs:
+    %   f  - Function handle for the system of equations, f(t, Y)
+    %        Y is a column vector, and f should return a column vector.
+    %   Y0 - Initial conditions as a column vector (Nx1, where N is the number of equations)
+    %   t0 - Initial time
+    %   tf - Final time
+    %   h  - Step size
+    %
+    % Outputs:
+    %   t  - Array of time steps
+    %   Y  - Solution matrix (NxM, where N is the number of equations, M is the number of time steps)
+
+    % Define the time vector from t0 to tf with step size h
+    t = t0:h:tf;
+    N = length(t);       % Number of time steps
+    num_eqns = length(Y0);  % Number of equations in the system
+
+    % Preallocate the solution matrix Y
+    Y = zeros(num_eqns, N);
     
-    % System of equations
-    dC1 = -k1 * C1 + k2 * C2 * C3;
-    dC2 = k1 * C1 - k2 * C2 * C3 - 2 * k3 * C2^2;
-    dC3 = 2 * k3 * C2^2;
+    % Set the initial conditions
+    Y(:, 1) = Y0;
+
+    % Apply the 4th-order Runge-Kutta method for each time step
+    for n = 1:N-1
+        % Calculate k1 values
+        k1 = f(t(n), Y(:, n));
+
+        % Calculate k2 values
+        k2 = f(t(n) + h/2, Y(:, n) + h/2 * k1);
+
+        % Calculate k3 values
+        k3 = f(t(n) + h/2, Y(:, n) + h/2 * k2);
+
+        % Calculate k4 values
+        k4 = f(t(n) + h, Y(:, n) + h * k3);
+
+        % Update Y using the weighted average of slopes
+        Y(:, n+1) = Y(:, n) + (h/6) * (k1 + 2*k2 + 2*k3 + k4);
+    end
+end
+
+function [t, Y] = trapezoidal_s(f, Y0, t0, tf, h)
+    % trapezoidal_s - Linearized Trapezoidal method for systems of ODEs.
+    %
+    % Inputs:
+    %   f  - Function handle for the system of equations, f(t, Y)
+    %        Y is a column vector, and f should return a column vector.
+    %   Y0 - Initial conditions as a column vector (Nx1, where N is the number of equations)
+    %   t0 - Initial time
+    %   tf - Final time
+    %   h  - Step size
+    %
+    % Outputs:
+    %   t  - Array of time steps
+    %   Y  - Solution matrix (NxM, where N is the number of equations, M is the number of time steps)
+
+    % Define the time vector from t0 to tf with step size h
+    t = t0:h:tf;
+    N = length(t);       % Number of time steps
+    num_eqns = length(Y0);  % Number of equations in the system
+
+    % Preallocate the solution matrix Y
+    Y = zeros(num_eqns, N);
     
-    % Return derivative
-    dCdt = [dC1; dC2; dC3];
+    % Set the initial conditions
+    Y(:, 1) = Y0;
+
+    % Apply the Linearized Trapezoidal method for each time step
+    for n = 1:N-1
+        % Predictor step (Euler's method)
+        Y_star = Y(:, n) + h * f(t(n), Y(:, n));
+        
+        % Corrector step
+        Y(:, n+1) = Y(:, n) + (h/2) * (f(t(n), Y(:, n)) + f(t(n+1), Y_star));
+    end
 end
