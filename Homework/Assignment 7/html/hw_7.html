@@ -1,0 +1,638 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>hw_7</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-12-06"><meta name="DC.source" content="hw_7.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Preperation of the workspace</a></li><li><a href="#3">Setting data paths</a></li><li><a href="#4">Problem 9 Chapter 5 Part a</a></li><li><a href="#5">Problem 9 Chapter 5 Part c</a></li><li><a href="#6">Problem 9 Chapter 5 Part d</a></li></ul></div><pre class="codeinput"><span class="comment">%{
+</span><span class="comment">
+</span><span class="comment">@author: Benjamin Bemis Ph.D Student,
+</span><span class="comment">Advisor: Dr Juliano
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">Description:
+</span><span class="comment">AME 60614: Numerical Methods
+</span><span class="comment">Homework: 7
+</span><span class="comment">Due: 12/5/2024
+</span><span class="comment">
+</span><span class="comment">
+</span><span class="comment">%}</span>
+</pre><h2 id="2">Preperation of the workspace</h2><pre class="codeinput">clear <span class="string">all</span>
+clc
+close <span class="string">all</span>
+fontsize = 16;
+
+
+<span class="comment">% set(0,'DefaultFigureWindowStyle','default')</span>
+set(0,<span class="string">'DefaultTextInterpreter'</span>,<span class="string">'latex'</span>)
+set(0,<span class="string">'DefaultAxesFontSize'</span>,fontsize)
+set(0,<span class="string">'DefaultLegendFontSize'</span>,fontsize)
+colors  = [<span class="string">"#000000"</span>,<span class="string">"#1b9e77"</span>,<span class="string">"#d95f02"</span>,<span class="string">"#7570b3"</span>,<span class="string">"#0099FF"</span>]';
+</pre><h2 id="3">Setting data paths</h2><p>Make sure to update this for the machine that you are working on. (Maybe, This should now run on any machine without change. 7/24/24) Change the current folder to the folder of this m-file.</p><pre class="codeinput"><span class="keyword">if</span>(~isdeployed)
+  cd(fileparts(matlab.desktop.editor.getActiveFilename));
+<span class="keyword">end</span>
+
+addpath(cd)
+<span class="comment">% cd ..; % Moving up a directory (from processing_code)</span>
+basepath = cd; <span class="comment">% Pulling the current directory</span>
+
+
+imagepath = [basepath filesep <span class="string">'images'</span> filesep];
+mkdir(imagepath);
+</pre><pre class="codeoutput">Warning: Directory already exists. 
+</pre><h2 id="4">Problem 9 Chapter 5 Part a</h2><pre class="codeinput">L = 1;                   <span class="comment">% Length of the domain (0 &#8804; x &#8804; 1)</span>
+Nx = 51;                 <span class="comment">% Number of spatial points</span>
+dx = L / (Nx - 1);       <span class="comment">% Spatial step size</span>
+x = linspace(0, L, Nx);  <span class="comment">% Spatial grid</span>
+u = 0.08;                <span class="comment">% Convection velocity</span>
+dt_values = [0.0625, 0.03, 0.001];
+t_end = 8;               <span class="comment">% End time</span>
+
+<span class="comment">% Exact solution function</span>
+exact_solution = @(x, t, u) (x - u * t &gt;= 0 &amp; x - u * t &lt;= 0.2) .* (1 - (10 * (x - u * t) - 1).^2);
+
+<span class="comment">% Initial condition</span>
+T = zeros(Nx, 1);
+<span class="keyword">for</span> i = 1:Nx
+    <span class="keyword">if</span> x(i) &lt;= 0.2
+        T(i) = 1 - (10 * x(i) - 1)^2;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+<span class="comment">% Loop through different time steps and plot solutions</span>
+<span class="keyword">for</span> t = [0, 4, 8]
+    <span class="keyword">for</span> k = 1:length(dt_values)
+        dt = dt_values(k);
+        T_num_e = T;  <span class="comment">% Solution for Explicit Euler</span>
+        T_num_l = T;  <span class="comment">% Solution for Leapfrog</span>
+
+        Nt = round(t / dt); <span class="comment">% Number of time steps</span>
+
+        <span class="comment">% Time marching using Explicit Euler scheme</span>
+        <span class="keyword">for</span> n = 1:Nt
+            T_new_e = T_num_e;  <span class="comment">% Temporary array to store updated values</span>
+
+            <span class="comment">% Update T using the central difference for spatial derivative</span>
+            <span class="keyword">for</span> i = 2:Nx-1
+                T_new_e(i) = T_num_e(i) - (u * dt / (2 * dx)) * (T_num_e(i+1) - T_num_e(i-1));
+            <span class="keyword">end</span>
+
+            <span class="comment">% Boundary Conditions: Zero at the endpoints</span>
+            T_new_e(1) = 0;
+            T_new_e(Nx) = 0;
+
+            <span class="comment">% Update the solution for the next time step</span>
+            T_num_e = T_new_e;
+        <span class="keyword">end</span>
+
+        T_prev = T;
+        <span class="keyword">for</span> n = 1:Nt
+            <span class="keyword">if</span> n == 1
+                T_new_l = T_num_l;
+                <span class="keyword">for</span> i = 2:Nx-1
+                    T_new_l(i) = T_num_l(i) - (u * dt / (2 * dx)) * (T_num_l(i+1) - T_num_l(i-1));
+                <span class="keyword">end</span>
+                T_prev = T_num_l;  <span class="comment">% Save first step for Leapfrog</span>
+            <span class="keyword">else</span>
+                T_new_l = T_prev;
+                <span class="keyword">for</span> i = 2:Nx-1
+                    T_new_l(i) = T_prev(i) - (u * dt / dx) * (T_num_l(i+1) - T_num_l(i-1));
+                <span class="keyword">end</span>
+                T_prev = T_num_l;  <span class="comment">% Update previous time step</span>
+            <span class="keyword">end</span>
+
+            <span class="comment">% Boundary Conditions: Zero at the endpoints</span>
+            T_new_l(1) = 0;
+            T_new_l(Nx) = 0;
+
+            <span class="comment">% Update the solution for the next time step</span>
+            T_num_l = T_new_l;
+        <span class="keyword">end</span>
+
+        <span class="comment">% Plot the results for both methods along with the exact solution</span>
+        T_exact = exact_solution(x, t, u);  <span class="comment">% Exact solution</span>
+        figure
+        plot(x, T_exact, <span class="string">'-'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>,colors(1));
+        hold <span class="string">on</span>
+        plot(x, T_num_e, <span class="string">'--'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>,colors(2));
+        plot(x, T_num_l, <span class="string">':'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>,colors(3));
+        title([<span class="string">'Solution Comparison at t = '</span>, num2str(t), <span class="string">' for dt = '</span>, num2str(dt)]);
+        xlabel(<span class="string">'x'</span>)
+        ylabel(<span class="string">'T(x,t)'</span>)
+        legend(<span class="string">'Exact Solution'</span>, <span class="string">'Explicit Euler'</span>, <span class="string">'Leapfrog'</span>);
+        grid <span class="string">on</span>;
+        print(gcf,[imagepath,<span class="string">'Solution'</span>,num2str(t),<span class="string">'_'</span>,num2str(dt),<span class="string">'.png'</span>],<span class="string">'-dpng'</span>);
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="hw_7_01.png" alt=""> <img vspace="5" hspace="5" src="hw_7_02.png" alt=""> <img vspace="5" hspace="5" src="hw_7_03.png" alt=""> <img vspace="5" hspace="5" src="hw_7_04.png" alt=""> <img vspace="5" hspace="5" src="hw_7_05.png" alt=""> <img vspace="5" hspace="5" src="hw_7_06.png" alt=""> <img vspace="5" hspace="5" src="hw_7_07.png" alt=""> <img vspace="5" hspace="5" src="hw_7_08.png" alt=""> <img vspace="5" hspace="5" src="hw_7_09.png" alt=""> <h2 id="5">Problem 9 Chapter 5 Part c</h2><pre class="codeinput">L = 1;                   <span class="comment">% Length of the domain (0 &#8804; x &#8804; 1)</span>
+Nx = 51;                 <span class="comment">% Number of spatial points</span>
+dx = L / (Nx - 1);       <span class="comment">% Spatial step size</span>
+x = linspace(0, L, Nx);  <span class="comment">% Spatial grid</span>
+u = 0.08;                <span class="comment">% Convection velocity</span>
+dt_values = [0.8, 1, 1.1] * dx / u;  <span class="comment">% Time steps based on gamma</span>
+t_end = 8;               <span class="comment">% End time</span>
+
+<span class="comment">% Exact solution function</span>
+exact_solution = @(x, t, u) (x - u * t &gt;= 0 &amp; x - u * t &lt;= 0.2) .* (1 - (10 * (x - u * t) - 1).^2);
+
+<span class="comment">% Initial condition</span>
+T = zeros(Nx, 1);
+<span class="keyword">for</span> i = 1:Nx
+    <span class="keyword">if</span> x(i) &lt;= 0.2
+        T(i) = 1 - (10 * x(i) - 1)^2;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Loop through different time steps (gamma values) and plot solutions</span>
+<span class="keyword">for</span> t = [0, 4, 8]
+    <span class="keyword">for</span> k = 1:length(dt_values)
+        dt = dt_values(k);
+        gamma = u * dt / dx;  <span class="comment">% Courant number</span>
+        T_num = T;       <span class="comment">% Solution array</span>
+        Nt = round(t / dt);   <span class="comment">% Number of time steps</span>
+
+        <span class="comment">% Time marching using Lax&#8211;Wendroff scheme</span>
+        <span class="keyword">for</span> n = 1:Nt
+            T_new = T_num;  <span class="comment">% Temporary array to store updated values</span>
+
+            <span class="keyword">for</span> i = 2:Nx-1
+                T_new(i) = T_num(i) <span class="keyword">...</span>
+                         - 0.5 * gamma * (T_num(i+1) - T_num(i-1)) <span class="keyword">...</span>
+                         + 0.5 * gamma^2 * (T_num(i+1) - 2*T_num(i) + T_num(i-1));
+            <span class="keyword">end</span>
+
+            <span class="comment">% Boundary Conditions: Zero at the endpoints</span>
+            T_new(1) = 0;
+            T_new(Nx) = 0;
+
+            <span class="comment">% Update the solution for the next time step</span>
+            T_num = T_new;
+        <span class="keyword">end</span>
+
+        <span class="comment">% Plot the results for each gamma value</span>
+        T_exact = exact_solution(x, t, u);  <span class="comment">% Exact solution</span>
+        figure
+        plot(x, T_exact, <span class="string">'-'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(1));
+        hold <span class="string">on</span>
+        plot(x, T_num, <span class="string">'--'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(2));
+        title([<span class="string">'Lax--Wendroff Scheme at $t = '</span>, num2str(t), <span class="string">', \ \gamma = '</span>, num2str(gamma), <span class="string">'$'</span>], <span class="string">'Interpreter'</span>, <span class="string">'latex'</span>);
+        xlabel(<span class="string">'x'</span>);
+        ylabel(<span class="string">'T(x,t)'</span>);
+        ylim([-2 2])
+        legend(<span class="string">'Exact Solution'</span>, <span class="string">'Numerical Solution'</span>);
+        grid <span class="string">on</span>
+        print(gcf,[imagepath,<span class="string">'C_'</span>,num2str(t),<span class="string">'_'</span>,num2str(gamma),<span class="string">'.png'</span>],<span class="string">'-dpng'</span>);
+
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="hw_7_10.png" alt=""> <img vspace="5" hspace="5" src="hw_7_11.png" alt=""> <img vspace="5" hspace="5" src="hw_7_12.png" alt=""> <img vspace="5" hspace="5" src="hw_7_13.png" alt=""> <img vspace="5" hspace="5" src="hw_7_14.png" alt=""> <img vspace="5" hspace="5" src="hw_7_15.png" alt=""> <img vspace="5" hspace="5" src="hw_7_16.png" alt=""> <img vspace="5" hspace="5" src="hw_7_17.png" alt=""> <img vspace="5" hspace="5" src="hw_7_18.png" alt=""> <h2 id="6">Problem 9 Chapter 5 Part d</h2><pre class="codeinput"><span class="comment">% Parameters</span>
+L = 1;                   <span class="comment">% Length of the domain (0 &#8804; x &#8804; 1)</span>
+Nx = 26;                 <span class="comment">% Number of spatial points</span>
+dx = L / (Nx - 1);       <span class="comment">% Spatial step size</span>
+x = linspace(0, L, Nx);  <span class="comment">% Spatial grid</span>
+u = 0.08;                <span class="comment">% Convection velocity</span>
+alpha = 0.001;           <span class="comment">% Diffusion coefficient</span>
+dt_values = [0.2, 0.01, 0.00001];  <span class="comment">% Time step values</span>
+t_end = 8;               <span class="comment">% End time</span>
+
+<span class="comment">% Exact solution function</span>
+exact_solution = @(x, t, u) (x - u * t &gt;= 0 &amp; x - u * t &lt;= 0.2) .* (1 - (10 * (x - u * t) - 1).^2);
+
+<span class="comment">% Initial condition</span>
+T = zeros(Nx, 1);
+<span class="keyword">for</span> i = 1:Nx
+    <span class="keyword">if</span> x(i) &lt;= 0.2
+        T(i) = 1 - (10 * x(i) - 1)^2;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> t = [0 4 8]
+<span class="keyword">for</span> k = 1:length(dt_values)
+    dt = dt_values(k);
+    Nt = round(t / dt);  <span class="comment">% Number of time steps</span>
+    gamma = u * dt / (2*dx);
+    beta = alpha * dt / dx^2;
+
+    <span class="comment">% Initialize solutions</span>
+    T_e = T;
+    T_l = T;
+    T_prev = T;
+
+    <span class="comment">% Time-stepping loop</span>
+    <span class="keyword">for</span> n = 1:Nt
+        <span class="comment">% Explicit Euler update</span>
+        T_new_e = T_e;
+        <span class="keyword">for</span> j = 2:Nx-1
+            T_new_e(j) = T_e(j) - gamma * (T_e(j+1) - T_e(j-1)) + beta * (T_e(j+1) - 2 * T_e(j) + T_e(j-1));
+        <span class="keyword">end</span>
+        <span class="comment">% Apply boundary conditions</span>
+        T_new_e(1) = 0;
+        T_new_e(Nx) = 0;
+        T_e = T_new_e;
+    <span class="keyword">end</span>
+
+    <span class="keyword">for</span> n = 1:Nt
+        <span class="keyword">if</span> n == 1
+            T_new_l = T_l;
+            <span class="keyword">for</span> j = 2:Nx-1
+                T_new_l(j) = T_l(j) -  gamma * (T_l(j+1) - T_l(j-1)) + beta * (T_l(j+1) - 2 * T_l(j) + T_l(j-1));
+            <span class="keyword">end</span>
+            T_prev = T_l;  <span class="comment">% Save first step for Leapfrog</span>
+        <span class="keyword">else</span>
+            T_new_l = T_prev;
+            <span class="keyword">for</span> j = 2:Nx-1
+                T_new_l(j) = T_prev(j)  - 2*gamma * (T_l(j+1) - T_l(j-1)) + 2* beta * (T_l(j+1) - 2 * T_l(j) + T_l(j-1));
+            <span class="keyword">end</span>
+            T_prev = T_l;  <span class="comment">% Update previous time step</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Boundary Conditions: Zero at the endpoints</span>
+        T_new_l(1) = 0;
+        T_new_l(Nx) = 0;
+
+        <span class="comment">% Update the solution for the next time step</span>
+        T_l = T_new_l;
+    <span class="keyword">end</span>
+        <span class="comment">% Plot solution at selected times</span>
+
+        T_exact = exact_solution(x,t,u);
+        figure;
+        plot(x, T_exact, <span class="string">'-'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(1))
+        hold <span class="string">on</span>;
+        plot(x, T_e, <span class="string">'--'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(2));
+        plot(x, T_l, <span class="string">'-.'</span>, <span class="string">'LineWidth'</span>, 1.5, <span class="string">'Color'</span>, colors(3));
+        title([<span class="string">'Solutions at t = '</span>, num2str(t), <span class="string">' for dt = '</span>, num2str(dt)])
+        xlabel(<span class="string">'x'</span>)
+        ylabel(<span class="string">'T(x,t)'</span>)
+        legend(<span class="string">'Exact Solution'</span>, <span class="string">'Explicit Euler'</span>, <span class="string">'Leapfrog'</span>);
+        grid <span class="string">on</span>
+        ylim([-2 2])
+        xlim([0,1])
+        print(gcf,[imagepath,<span class="string">'D_'</span>,num2str(t),<span class="string">'_'</span>,num2str(gamma),<span class="string">'.png'</span>],<span class="string">'-dpng'</span>);
+
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="hw_7_19.png" alt=""> <img vspace="5" hspace="5" src="hw_7_20.png" alt=""> <img vspace="5" hspace="5" src="hw_7_21.png" alt=""> <img vspace="5" hspace="5" src="hw_7_22.png" alt=""> <img vspace="5" hspace="5" src="hw_7_23.png" alt=""> <img vspace="5" hspace="5" src="hw_7_24.png" alt=""> <img vspace="5" hspace="5" src="hw_7_25.png" alt=""> <img vspace="5" hspace="5" src="hw_7_26.png" alt=""> <img vspace="5" hspace="5" src="hw_7_27.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%{
+
+@author: Benjamin Bemis Ph.D Student, 
+Advisor: Dr Juliano
+
+
+Description:
+AME 60614: Numerical Methods
+Homework: 7
+Due: 12/5/2024
+
+
+%}
+
+%% Preperation of the workspace
+clear all 
+clc 
+close all
+fontsize = 16;
+
+
+% set(0,'DefaultFigureWindowStyle','default')
+set(0,'DefaultTextInterpreter','latex')
+set(0,'DefaultAxesFontSize',fontsize)
+set(0,'DefaultLegendFontSize',fontsize)
+colors  = ["#000000","#1b9e77","#d95f02","#7570b3","#0099FF"]';
+
+%% Setting data paths
+% Make sure to update this for the machine that you are working on. (Maybe, This should now run on any machine without change. 7/24/24)
+% Change the current folder to the folder of this m-file.
+if(~isdeployed)
+  cd(fileparts(matlab.desktop.editor.getActiveFilename));
+end
+
+addpath(cd)
+% cd ..; % Moving up a directory (from processing_code)
+basepath = cd; % Pulling the current directory
+
+
+imagepath = [basepath filesep 'images' filesep]; 
+mkdir(imagepath);
+
+   
+
+
+%% Problem 9 Chapter 5 Part a
+
+L = 1;                   % Length of the domain (0 ≤ x ≤ 1)
+Nx = 51;                 % Number of spatial points
+dx = L / (Nx - 1);       % Spatial step size
+x = linspace(0, L, Nx);  % Spatial grid
+u = 0.08;                % Convection velocity
+dt_values = [0.0625, 0.03, 0.001]; 
+t_end = 8;               % End time
+
+% Exact solution function
+exact_solution = @(x, t, u) (x - u * t >= 0 & x - u * t <= 0.2) .* (1 - (10 * (x - u * t) - 1).^2);
+
+% Initial condition
+T = zeros(Nx, 1);
+for i = 1:Nx
+    if x(i) <= 0.2
+        T(i) = 1 - (10 * x(i) - 1)^2;
+    end
+end
+
+
+% Loop through different time steps and plot solutions
+for t = [0, 4, 8]
+    for k = 1:length(dt_values)
+        dt = dt_values(k);
+        T_num_e = T;  % Solution for Explicit Euler
+        T_num_l = T;  % Solution for Leapfrog
+
+        Nt = round(t / dt); % Number of time steps
+
+        % Time marching using Explicit Euler scheme
+        for n = 1:Nt
+            T_new_e = T_num_e;  % Temporary array to store updated values
+
+            % Update T using the central difference for spatial derivative
+            for i = 2:Nx-1
+                T_new_e(i) = T_num_e(i) - (u * dt / (2 * dx)) * (T_num_e(i+1) - T_num_e(i-1));
+            end
+
+            % Boundary Conditions: Zero at the endpoints
+            T_new_e(1) = 0;
+            T_new_e(Nx) = 0;
+
+            % Update the solution for the next time step
+            T_num_e = T_new_e;
+        end
+
+        T_prev = T; 
+        for n = 1:Nt
+            if n == 1
+                T_new_l = T_num_l;
+                for i = 2:Nx-1
+                    T_new_l(i) = T_num_l(i) - (u * dt / (2 * dx)) * (T_num_l(i+1) - T_num_l(i-1));
+                end
+                T_prev = T_num_l;  % Save first step for Leapfrog
+            else
+                T_new_l = T_prev; 
+                for i = 2:Nx-1
+                    T_new_l(i) = T_prev(i) - (u * dt / dx) * (T_num_l(i+1) - T_num_l(i-1));
+                end
+                T_prev = T_num_l;  % Update previous time step
+            end
+
+            % Boundary Conditions: Zero at the endpoints
+            T_new_l(1) = 0;
+            T_new_l(Nx) = 0;
+
+            % Update the solution for the next time step
+            T_num_l = T_new_l;
+        end
+
+        % Plot the results for both methods along with the exact solution
+        T_exact = exact_solution(x, t, u);  % Exact solution
+        figure
+        plot(x, T_exact, '-', 'LineWidth', 1.5, 'Color',colors(1));
+        hold on
+        plot(x, T_num_e, 'REPLACE_WITH_DASH_DASH', 'LineWidth', 1.5, 'Color',colors(2));
+        plot(x, T_num_l, ':', 'LineWidth', 1.5, 'Color',colors(3));
+        title(['Solution Comparison at t = ', num2str(t), ' for dt = ', num2str(dt)]);
+        xlabel('x')
+        ylabel('T(x,t)')
+        legend('Exact Solution', 'Explicit Euler', 'Leapfrog');
+        grid on;
+        print(gcf,[imagepath,'Solution',num2str(t),'_',num2str(dt),'.png'],'-dpng');
+
+    end
+
+end
+
+
+%% Problem 9 Chapter 5 Part c
+
+L = 1;                   % Length of the domain (0 ≤ x ≤ 1)
+Nx = 51;                 % Number of spatial points
+dx = L / (Nx - 1);       % Spatial step size
+x = linspace(0, L, Nx);  % Spatial grid
+u = 0.08;                % Convection velocity
+dt_values = [0.8, 1, 1.1] * dx / u;  % Time steps based on gamma
+t_end = 8;               % End time
+
+% Exact solution function
+exact_solution = @(x, t, u) (x - u * t >= 0 & x - u * t <= 0.2) .* (1 - (10 * (x - u * t) - 1).^2);
+
+% Initial condition
+T = zeros(Nx, 1);
+for i = 1:Nx
+    if x(i) <= 0.2
+        T(i) = 1 - (10 * x(i) - 1)^2;
+    end
+end
+
+% Loop through different time steps (gamma values) and plot solutions
+for t = [0, 4, 8]
+    for k = 1:length(dt_values)
+        dt = dt_values(k);
+        gamma = u * dt / dx;  % Courant number
+        T_num = T;       % Solution array
+        Nt = round(t / dt);   % Number of time steps
+
+        % Time marching using Lax–Wendroff scheme
+        for n = 1:Nt
+            T_new = T_num;  % Temporary array to store updated values
+
+            for i = 2:Nx-1
+                T_new(i) = T_num(i) ...
+                         - 0.5 * gamma * (T_num(i+1) - T_num(i-1)) ...
+                         + 0.5 * gamma^2 * (T_num(i+1) - 2*T_num(i) + T_num(i-1));
+            end
+
+            % Boundary Conditions: Zero at the endpoints
+            T_new(1) = 0;
+            T_new(Nx) = 0;
+
+            % Update the solution for the next time step
+            T_num = T_new;
+        end
+
+        % Plot the results for each gamma value
+        T_exact = exact_solution(x, t, u);  % Exact solution
+        figure
+        plot(x, T_exact, '-', 'LineWidth', 1.5, 'Color', colors(1));
+        hold on
+        plot(x, T_num, 'REPLACE_WITH_DASH_DASH', 'LineWidth', 1.5, 'Color', colors(2));
+        title(['LaxREPLACE_WITH_DASH_DASHWendroff Scheme at $t = ', num2str(t), ', \ \gamma = ', num2str(gamma), '$'], 'Interpreter', 'latex');
+        xlabel('x'); 
+        ylabel('T(x,t)');
+        ylim([-2 2])
+        legend('Exact Solution', 'Numerical Solution');
+        grid on
+        print(gcf,[imagepath,'C_',num2str(t),'_',num2str(gamma),'.png'],'-dpng');
+
+    end
+end
+
+%% Problem 9 Chapter 5 Part d
+
+% Parameters
+L = 1;                   % Length of the domain (0 ≤ x ≤ 1)
+Nx = 26;                 % Number of spatial points
+dx = L / (Nx - 1);       % Spatial step size
+x = linspace(0, L, Nx);  % Spatial grid
+u = 0.08;                % Convection velocity
+alpha = 0.001;           % Diffusion coefficient
+dt_values = [0.2, 0.01, 0.00001];  % Time step values
+t_end = 8;               % End time
+
+% Exact solution function
+exact_solution = @(x, t, u) (x - u * t >= 0 & x - u * t <= 0.2) .* (1 - (10 * (x - u * t) - 1).^2);
+
+% Initial condition
+T = zeros(Nx, 1);
+for i = 1:Nx
+    if x(i) <= 0.2
+        T(i) = 1 - (10 * x(i) - 1)^2;
+    end
+end
+
+for t = [0 4 8]
+for k = 1:length(dt_values)
+    dt = dt_values(k);
+    Nt = round(t / dt);  % Number of time steps
+    gamma = u * dt / (2*dx);   
+    beta = alpha * dt / dx^2;
+
+    % Initialize solutions
+    T_e = T; 
+    T_l = T; 
+    T_prev = T;      
+
+    % Time-stepping loop
+    for n = 1:Nt
+        % Explicit Euler update
+        T_new_e = T_e;
+        for j = 2:Nx-1
+            T_new_e(j) = T_e(j) - gamma * (T_e(j+1) - T_e(j-1)) + beta * (T_e(j+1) - 2 * T_e(j) + T_e(j-1));
+        end
+        % Apply boundary conditions
+        T_new_e(1) = 0;
+        T_new_e(Nx) = 0;
+        T_e = T_new_e;
+    end
+
+    for n = 1:Nt
+        if n == 1
+            T_new_l = T_l;
+            for j = 2:Nx-1
+                T_new_l(j) = T_l(j) -  gamma * (T_l(j+1) - T_l(j-1)) + beta * (T_l(j+1) - 2 * T_l(j) + T_l(j-1));
+            end
+            T_prev = T_l;  % Save first step for Leapfrog
+        else
+            T_new_l = T_prev;
+            for j = 2:Nx-1
+                T_new_l(j) = T_prev(j)  - 2*gamma * (T_l(j+1) - T_l(j-1)) + 2* beta * (T_l(j+1) - 2 * T_l(j) + T_l(j-1));
+            end
+            T_prev = T_l;  % Update previous time step
+        end
+
+        % Boundary Conditions: Zero at the endpoints
+        T_new_l(1) = 0;
+        T_new_l(Nx) = 0;
+
+        % Update the solution for the next time step
+        T_l = T_new_l;
+    end
+        % Plot solution at selected times
+
+        T_exact = exact_solution(x,t,u);
+        figure;
+        plot(x, T_exact, '-', 'LineWidth', 1.5, 'Color', colors(1))
+        hold on;
+        plot(x, T_e, 'REPLACE_WITH_DASH_DASH', 'LineWidth', 1.5, 'Color', colors(2));
+        plot(x, T_l, '-.', 'LineWidth', 1.5, 'Color', colors(3));
+        title(['Solutions at t = ', num2str(t), ' for dt = ', num2str(dt)])
+        xlabel('x')
+        ylabel('T(x,t)')
+        legend('Exact Solution', 'Explicit Euler', 'Leapfrog');
+        grid on
+        ylim([-2 2])
+        xlim([0,1])
+        print(gcf,[imagepath,'D_',num2str(t),'_',num2str(gamma),'.png'],'-dpng');
+
+end
+
+end
+
+
+
+##### SOURCE END #####
+--></body></html>
