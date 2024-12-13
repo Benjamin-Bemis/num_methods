@@ -119,6 +119,8 @@ colormap viridis
 a = colorbar
 set(a,'YTick',-1:.25:1)
 set(gca, 'CLim', [-1 1])
+print(gcf,[imagepath,'u.png'],'-dpng');
+
 
 figure
 f = pcolor(X, Y, v)
@@ -129,3 +131,5 @@ colormap viridis
 a = colorbar
 set(a,'YTick',0:.25:1)
 set(gca, 'CLim', [0 1])
+print(gcf,[imagepath,'v.png'],'-dpng');
+
